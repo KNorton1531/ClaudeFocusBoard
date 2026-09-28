@@ -1,0 +1,60 @@
+/* Placeholder picture: a golden sky. Swap for the AI image later:
+   background-image: url('./autumn-forest.jpg'); */
+.autumn-forest .background-image {
+  background-image: linear-gradient(180deg, #f6c177 0%, #e08c4a 45%, #8a3f22 75%, #3b1d12 100%);
+}
+
+.autumn-forest .trees {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background:
+    radial-gradient(circle at 10% 60%, #5a2614 0 14%, transparent 15%),
+    radial-gradient(circle at 28% 50%, #6d2e16 0 16%, transparent 17%),
+    radial-gradient(circle at 50% 65%, #4d2112 0 15%, transparent 16%),
+    radial-gradient(circle at 72% 52%, #6d2e16 0 17%, transparent 18%),
+    radial-gradient(circle at 92% 62%, #5a2614 0 14%, transparent 15%),
+    linear-gradient(180deg, transparent 60%, #2b140c 60%);
+}
+
+.autumn-forest .light-rays {
+  position: absolute;
+  top: -20%;
+  left: 20%;
+  width: 60%;
+  height: 120%;
+  background: repeating-linear-gradient(100deg, rgba(255, 230, 170, 0.12) 0 40px, transparent 40px 120px);
+  filter: blur(8px);
+  animation: rays-pulse 8s ease-in-out infinite;
+}
+
+@keyframes rays-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.autumn-forest .leaf {
+  position: absolute;
+  top: -20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 0 60% 0 60%;
+  background: #d9662b;
+  animation: leaf-fall 16s linear infinite;
+}
+
+@keyframes leaf-fall {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate(120px, 105vh) rotate(540deg);
+  }
+}

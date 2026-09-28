@@ -1,0 +1,86 @@
+/* Placeholder picture: a night sky. Swap for the AI image later:
+   background-image: url('./night-city.jpg'); */
+.night-city .background-image {
+  background-image: linear-gradient(180deg, #0b1026 0%, #1f1b45 55%, #3d2a5c 100%);
+}
+
+.night-city .stars {
+  position: absolute;
+  inset: 0 0 50% 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, white, transparent),
+    radial-gradient(1px 1px at 30% 10%, white, transparent),
+    radial-gradient(1px 1px at 55% 25%, white, transparent),
+    radial-gradient(1px 1px at 75% 15%, white, transparent),
+    radial-gradient(1px 1px at 90% 30%, white, transparent);
+  opacity: 0.7;
+}
+
+.night-city .skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  background:
+    linear-gradient(#141128, #141128) 5% 100% / 10% 60% no-repeat,
+    linear-gradient(#18142f, #18142f) 18% 100% / 8% 80% no-repeat,
+    linear-gradient(#110e22, #110e22) 30% 100% / 12% 70% no-repeat,
+    linear-gradient(#18142f, #18142f) 45% 100% / 9% 90% no-repeat,
+    linear-gradient(#141128, #141128) 57% 100% / 11% 65% no-repeat,
+    linear-gradient(#110e22, #110e22) 70% 100% / 8% 85% no-repeat,
+    linear-gradient(#18142f, #18142f) 82% 100% / 12% 60% no-repeat,
+    linear-gradient(#141128, #141128) 96% 100% / 8% 75% no-repeat;
+}
+
+.night-city .city-light {
+  position: absolute;
+  width: 8px;
+  height: 10px;
+  background: #ffd98a;
+  box-shadow: 0 0 8px #ffb84d;
+  animation: light-flicker 12s steps(1) infinite;
+}
+
+@keyframes light-flicker {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  61%,
+  80% {
+    opacity: 0;
+  }
+  81%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.night-city .car-light {
+  position: absolute;
+  bottom: 3%;
+  width: 60px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #ff6b5a);
+  animation: car-pass 14s linear infinite;
+}
+
+@keyframes car-pass {
+  from {
+    left: -80px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+/* The bedroom window around the view */
+.night-city .window-frame {
+  position: absolute;
+  inset: 0;
+  border: 28px solid #1a1422;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(#1a1422, #1a1422) center / 14px 100% no-repeat;
+}

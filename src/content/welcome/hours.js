@@ -1,0 +1,28 @@
+// hours.js: the header shown when nothing special is happening.
+// One list per hour (0 = midnight, 13 = 1pm). One line is picked per day.
+export const hourlyLines = {
+  0: ["It's the midnight hour, {name}.", "Midnight. The house is quiet."],
+  1: ["The early hours. Peaceful, isn't it?", "You're up late, {name}."],
+  2: ["Still up, {name}?", "Deep in the night now."],
+  3: ["It's the dead of night, {name}.", "Even the owls are sleepy."],
+  4: ["Quiet before sunrise. Everything is still.", "Nearly morning, {name}."],
+  5: ["The sun will be up soon, {name}.", "Early start today."],
+  6: ["Dawn's breaking, {name}.", "First light."],
+  7: ["Good morning, {name}. The day is starting.", "Morning, {name}. Coffee first."],
+  8: ["Time to get going, {name}.", "Morning, {name}. Let's ease into it."],
+  9: ["Good morning, {name}.", "Fresh start, {name}."],
+  10: ["Morning's in full swing, {name}.", "Settling in nicely."],
+  11: ["Morning, {name}. Almost time for a break.", "Nearly lunchtime."],
+  12: ["Time for some lunch, {name}?", "Midday already."],
+  13: ["Afternoon, {name}. Well into the day.", "Back at it, {name}."],
+  14: ["A good time for a short break, {name}.", "Afternoon slump? Stretch it out."],
+  15: ["Afternoon, {name}.", "Tea time, {name}?"],
+  16: ["Almost time to relax, {name}.", "Home stretch."],
+  17: ["Evening, {name}.", "Day's winding down."],
+  18: ["Evening, {name}. How's your day gone?", "Time to switch off."],
+  19: ["Perfect time for a chill out, {name}.", "Settle in, {name}."],
+  20: ["Cozy evening, {name}.", "Feet up time."],
+  21: ["It's getting late, {name}.", "Night's drawing in."],
+  22: ["Late evening. Time to start winding down.", "Nearly bedtime, {name}."],
+  23: ["Evening, {name}. Time for reflection or rest.", "One more thing, then bed?"],
+};

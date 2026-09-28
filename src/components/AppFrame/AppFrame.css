@@ -1,0 +1,48 @@
+.app-frame {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.app-frame-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-s) var(--space-m);
+  cursor: grab;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-soft);
+}
+
+.app-frame-bar:active {
+  cursor: grabbing;
+}
+
+.app-frame-close {
+  border: none;
+  background: none;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.app-frame:hover .app-frame-close {
+  opacity: 1;
+}
+
+.app-frame-body {
+  flex: 1;
+  padding: 0 var(--space-m) var(--space-m);
+  overflow: auto;
+}

@@ -1,7 +1,7 @@
 /* Warm Cafe theme. A theme is just a set of CSS variables. */
 :root {
   --color-bg: #2b211c;
-  --color-surface: rgba(255, 244, 230, 0.12);
+  --color-surface: rgba(40, 28, 22, 0.45);
   --color-text: #f6ead8;
   --color-text-soft: #cdb89f;
   --color-accent: #e8a86b;
