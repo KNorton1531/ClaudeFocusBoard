@@ -1,0 +1,88 @@
+/* Placeholder picture: a winter evening sky. Swap for the AI image later:
+   background-image: url('./snow-cabin.jpg'); */
+.snow-cabin .background-image {
+  background-image: linear-gradient(180deg, #1c2a44 0%, #3f5577 55%, #8398b5 100%);
+}
+
+.snow-cabin .snow-ground {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -15%;
+  height: 40%;
+  border-radius: 50% 50% 0 0;
+  background: #e8eef6;
+}
+
+.snow-cabin .cabin {
+  position: absolute;
+  bottom: 18%;
+  left: 60%;
+  width: 180px;
+  height: 110px;
+  background: #4a2e22;
+}
+
+.snow-cabin .cabin-roof {
+  position: absolute;
+  bottom: 100%;
+  left: -20px;
+  width: 220px;
+  height: 80px;
+  background: #f4f7fb;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.snow-cabin .cabin-chimney {
+  position: absolute;
+  bottom: 140px;
+  left: 130px;
+  width: 20px;
+  height: 40px;
+  background: #3a241b;
+}
+
+.snow-cabin .smoke {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(220, 225, 235, 0.5);
+  filter: blur(4px);
+  animation: smoke-rise 6s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes smoke-rise {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(40px, -120px) scale(2);
+    opacity: 0;
+  }
+}
+
+.snow-cabin .cabin-window {
+  position: absolute;
+  top: 30px;
+  left: 70px;
+  width: 40px;
+  height: 36px;
+  background: #ffcf6b;
+  box-shadow: 0 0 30px 8px rgba(255, 180, 80, 0.6);
+  animation: window-glow 3s ease-in-out infinite;
+}
+
+@keyframes window-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}

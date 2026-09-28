@@ -1,0 +1,24 @@
+.welcome {
+  position: fixed;
+  top: var(--space-l);
+  left: var(--space-l);
+  z-index: 10;
+  max-width: 60%;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+.welcome-header {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.welcome-sub {
+  margin: var(--space-s) 0 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-soft);
+}

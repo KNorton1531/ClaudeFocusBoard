@@ -1,0 +1,17 @@
+.board {
+  position: relative;
+  z-index: 5;
+  min-height: 100%;
+  padding-top: 140px;
+}
+
+/* Softer resize handle so it fits the cozy look */
+.board .react-resizable-handle {
+  opacity: 0.4;
+}
+
+.board .react-grid-placeholder {
+  background: var(--color-accent);
+  border-radius: var(--radius);
+  opacity: 0.2;
+}

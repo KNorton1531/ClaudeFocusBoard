@@ -1,0 +1,19 @@
+.clock {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.clock-time {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.clock-date {
+  margin-top: var(--space-s);
+  color: var(--color-text-soft);
+}

@@ -1,0 +1,45 @@
+/* Shared layers used by every background.
+   Layer 1: .background (base color)
+   Layer 2: .background-image (the static picture, or a CSS placeholder)
+   Layer 3: .scene (scene animations that belong to this background)
+   Effects (rain, snow) are separate and sit above these. */
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.background-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Drifting clouds, used by more than one background */
+.cloud {
+  position: absolute;
+  width: 260px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  filter: blur(18px);
+  animation: cloud-drift linear infinite;
+}
+
+@keyframes cloud-drift {
+  from {
+    transform: translateX(-400px);
+  }
+  to {
+    transform: translateX(calc(100vw + 400px));
+  }
+}
