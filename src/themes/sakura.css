@@ -1,0 +1,11 @@
+/* Sakura: soft pinks and white. */
+[data-theme="sakura"] {
+  --color-bg: #2e1f27;
+  --color-surface: rgba(64, 40, 53, 0.45);
+  --color-surface-solid: rgba(44, 28, 37, 0.92);
+  --color-line: rgba(255, 238, 245, 0.16);
+  --color-text: #ffeef5;
+  --color-text-soft: #d9b3c4;
+  --color-accent: #f2a0c0;
+  --color-accent-text: #2e1f27;
+}

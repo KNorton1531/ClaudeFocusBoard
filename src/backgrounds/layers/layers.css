@@ -1,0 +1,146 @@
+/* The picture, cropped to fill the screen like background-size: cover.
+   It keeps a 16:9 shape, so anything placed inside it with % lines up with
+   the same spot in the picture. Pictures should be 16:9 (e.g. 1920 x 1080).
+   "container-type" lets layers use cqw: 1cqw = 1% of the picture's width. */
+.scene-picture {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+  transform: translate(-50%, -50%);
+  background-size: 100% 100%;
+  container-type: size;
+}
+
+/* One layer. Cuts off anything that goes past its area. */
+.scene-layer {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ---- Stars ---- */
+.layer-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  animation-name: layer-star-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes layer-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* ---- Clouds ---- */
+.layer-cloud {
+  position: absolute;
+  left: 0;
+  width: 60%;
+  border-radius: 50%;
+  filter: blur(30px);
+  animation-name: layer-cloud-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.layer-cloud-from-left {
+  animation-direction: reverse;
+}
+
+/* % here is the cloud's own width, so it starts fully off one side
+   and ends fully off the other. */
+@keyframes layer-cloud-drift {
+  from {
+    transform: translateX(170%);
+  }
+  to {
+    transform: translateX(-170%);
+  }
+}
+
+/* ---- Glow ---- */
+.layer-glow {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation-name: layer-glow-breathe;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes layer-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.layer-glow-flicker {
+  animation-name: layer-glow-flicker;
+  animation-timing-function: steps(1);
+}
+
+@keyframes layer-glow-flicker {
+  0% {
+    opacity: 0.85;
+  }
+  12% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.75;
+  }
+  34% {
+    opacity: 0.95;
+  }
+  51% {
+    opacity: 0.8;
+  }
+  63% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.9;
+  }
+}
+
+/* ---- Smoke ---- */
+.layer-smoke {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(5px);
+  opacity: 0;
+  animation-name: layer-smoke-rise;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+/* % here is the puff's own size, so bigger puffs rise further. */
+@keyframes layer-smoke-rise {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(220%, -700%) scale(2.6);
+    opacity: 0;
+  }
+}

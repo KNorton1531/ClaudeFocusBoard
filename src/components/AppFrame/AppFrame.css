@@ -7,7 +7,7 @@
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
   box-shadow: var(--shadow);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-line);
   overflow: hidden;
 }
 
@@ -15,9 +15,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-s);
   padding: var(--space-s) var(--space-m);
   cursor: grab;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-text-soft);
@@ -27,22 +28,54 @@
   cursor: grabbing;
 }
 
-.app-frame-close {
-  border: none;
-  background: none;
-  color: var(--color-text-soft);
-  cursor: pointer;
-  font-size: 0.9rem;
+.app-frame-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-frame-buttons {
+  display: flex;
+  gap: 2px;
   opacity: 0;
   transition: opacity 200ms;
 }
 
-.app-frame:hover .app-frame-close {
+.app-frame:hover .app-frame-buttons,
+.app-frame:focus-within .app-frame-buttons {
   opacity: 1;
+}
+
+.app-frame-button {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.app-frame-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--color-text);
 }
 
 .app-frame-body {
   flex: 1;
+  min-height: 0;
   padding: 0 var(--space-m) var(--space-m);
   overflow: auto;
+  /* Lets an App size its text against its own width, not the whole page. */
+  container-type: inline-size;
 }
+
+.app-frame-settings {
+  padding-top: var(--space-s);
+}
+

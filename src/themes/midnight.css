@@ -1,0 +1,11 @@
+/* Midnight: deep blue, soft purple, dim. */
+[data-theme="midnight"] {
+  --color-bg: #10132a;
+  --color-surface: rgba(20, 24, 52, 0.5);
+  --color-surface-solid: rgba(14, 17, 38, 0.92);
+  --color-line: rgba(226, 231, 255, 0.14);
+  --color-text: #e6e9ff;
+  --color-text-soft: #a5abd4;
+  --color-accent: #9b8cff;
+  --color-accent-text: #10132a;
+}

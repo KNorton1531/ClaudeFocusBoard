@@ -1,80 +1,184 @@
-/* Placeholder picture: a winter evening sky. Swap for the AI image later:
+/* Placeholder picture: a cold winter evening sky.
+   Swap for the AI image later by changing this one line to:
    background-image: url('./snow-cabin.jpg'); */
 .snow-cabin .background-image {
-  background-image: linear-gradient(180deg, #1c2a44 0%, #3f5577 55%, #8398b5 100%);
+  background-image: linear-gradient(
+    180deg,
+    #101c33 0%,
+    #1e3151 30%,
+    #3c5a7d 52%,
+    #52709a 72%,
+    #8aa3c2 100%
+  );
 }
 
+.snow-cabin .frost-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #eaf2ff;
+  opacity: 0.7;
+  animation: frost-twinkle 6s ease-in-out infinite;
+}
+
+@keyframes frost-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Far mountains, pale so they sit back. */
+.snow-cabin .mountains {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30%;
+  height: 26%;
+  opacity: 0.75;
+  background:
+    linear-gradient(135deg, transparent 48%, #6d84a8 48%) 0 100% / 34% 100% no-repeat,
+    linear-gradient(225deg, transparent 48%, #6d84a8 48%) 22% 100% / 34% 100% no-repeat,
+    linear-gradient(135deg, transparent 48%, #5d7396 48%) 45% 100% / 40% 84% no-repeat,
+    linear-gradient(225deg, transparent 48%, #5d7396 48%) 70% 100% / 40% 84% no-repeat;
+}
+
+.snow-cabin .valley-haze {
+  bottom: 26%;
+  height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(198, 216, 238, 0.45) 60%, rgba(198, 216, 238, 0.2));
+  filter: blur(14px);
+}
+
+/* A line of pine trees along the valley floor. */
+.snow-cabin .pines {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 26%;
+  height: 16%;
+  background:
+    linear-gradient(135deg, transparent 46%, #1f3a32 46%) 3% 100% / 5% 70% no-repeat,
+    linear-gradient(225deg, transparent 46%, #1f3a32 46%) 5.5% 100% / 5% 70% no-repeat,
+    linear-gradient(135deg, transparent 46%, #24443a 46%) 14% 100% / 6% 92% no-repeat,
+    linear-gradient(225deg, transparent 46%, #24443a 46%) 17% 100% / 6% 92% no-repeat,
+    linear-gradient(135deg, transparent 46%, #1b322b 46%) 28% 100% / 5% 62% no-repeat,
+    linear-gradient(225deg, transparent 46%, #1b322b 46%) 30.5% 100% / 5% 62% no-repeat,
+    linear-gradient(135deg, transparent 46%, #24443a 46%) 84% 100% / 6% 86% no-repeat,
+    linear-gradient(225deg, transparent 46%, #24443a 46%) 87% 100% / 6% 86% no-repeat,
+    linear-gradient(135deg, transparent 46%, #1f3a32 46%) 94% 100% / 5% 68% no-repeat,
+    linear-gradient(225deg, transparent 46%, #1f3a32 46%) 96.5% 100% / 5% 68% no-repeat;
+}
+
+/* The snow field, curving away like a hill. */
 .snow-cabin .snow-ground {
   position: absolute;
-  left: -10%;
-  right: -10%;
-  bottom: -15%;
-  height: 40%;
+  left: -12%;
+  right: -12%;
+  bottom: -18%;
+  height: 46%;
   border-radius: 50% 50% 0 0;
-  background: #e8eef6;
+  background: linear-gradient(180deg, #f2f7fd 0%, #d6e3f1 45%, #b9cbe0 100%);
 }
 
+/* The cabin. Everything inside is placed against this box. */
 .snow-cabin .cabin {
   position: absolute;
-  bottom: 18%;
-  left: 60%;
-  width: 180px;
-  height: 110px;
-  background: #4a2e22;
+  bottom: 22%;
+  left: 58%;
+  width: 190px;
+  height: 108px;
+}
+
+.snow-cabin .cabin-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #5a3728 0%, #402519 100%);
 }
 
 .snow-cabin .cabin-roof {
   position: absolute;
   bottom: 100%;
-  left: -20px;
-  width: 220px;
-  height: 80px;
-  background: #f4f7fb;
+  left: -22px;
+  width: 234px;
+  height: 78px;
+  background: linear-gradient(180deg, #ffffff 0%, #dbe6f3 100%);
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
 .snow-cabin .cabin-chimney {
   position: absolute;
-  bottom: 140px;
-  left: 130px;
+  bottom: 138px;
+  left: 132px;
   width: 20px;
-  height: 40px;
-  background: #3a241b;
+  height: 42px;
+  border-radius: 2px;
+  background: #33201a;
+  box-shadow: inset 0 4px 0 #e8eef7;
 }
 
 .snow-cabin .smoke {
   position: absolute;
   bottom: 100%;
-  left: 0;
-  width: 24px;
-  height: 24px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: rgba(220, 225, 235, 0.5);
-  filter: blur(4px);
-  animation: smoke-rise 6s ease-out infinite;
+  background: rgba(226, 232, 242, 0.45);
+  filter: blur(5px);
   opacity: 0;
+  animation: smoke-rise 7s ease-out infinite;
 }
 
 @keyframes smoke-rise {
   0% {
-    transform: translate(0, 0) scale(0.5);
-    opacity: 0.8;
+    transform: translate3d(0, 0, 0) scale(0.4);
+    opacity: 0.7;
   }
   100% {
-    transform: translate(40px, -120px) scale(2);
+    transform: translate3d(54px, -150px, 0) scale(2.6);
     opacity: 0;
   }
 }
 
 .snow-cabin .cabin-window {
   position: absolute;
-  top: 30px;
-  left: 70px;
-  width: 40px;
-  height: 36px;
+  top: 26px;
+  left: 28px;
+  width: 44px;
+  height: 38px;
+  border-radius: 2px;
   background: #ffcf6b;
-  box-shadow: 0 0 30px 8px rgba(255, 180, 80, 0.6);
-  animation: window-glow 3s ease-in-out infinite;
+  box-shadow: inset 0 0 0 3px #33201a;
+  animation: window-glow 5s ease-in-out infinite;
+}
+
+.snow-cabin .cabin-door {
+  position: absolute;
+  bottom: 0;
+  left: 112px;
+  width: 34px;
+  height: 62px;
+  border-radius: 3px 3px 0 0;
+  background: #33201a;
+}
+
+/* The warm light spilling out onto the snow. */
+.snow-cabin .cabin-glow {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  width: 120px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 100, 0.55) 0%, transparent 70%);
+  filter: blur(10px);
+  animation: window-glow 5s ease-in-out infinite;
 }
 
 @keyframes window-glow {
@@ -83,6 +187,6 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.8;
+    opacity: 0.78;
   }
 }

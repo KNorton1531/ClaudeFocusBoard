@@ -21,16 +21,23 @@ Art will be AI-generated later. Use placeholder images while building.
 | Autumn forest | Warm, golden, calm | Drifting clouds, swaying branches, light rays, a few falling leaves | [v1] |
 | Night city from a bedroom | Quiet, late night | Window lights flicker on/off, blinking signs, passing car lights, moving clouds | [v1] |
 | Cabin in the snow | Cozy, winter | Chimney smoke, glowing/flickering cabin window, slow clouds | [v1] |
+| Night flight | Calm, late night, travelling | Twinkling stars, wisps drifting past the window, glowing reading light. First one with real art (`night-flight.png`) | done |
 
-## Folder shape (per background)
+## Folder shape (per background, decided 2026-10-12)
+A background is a 16:9 picture plus a list of scene layers. No code per background.
 ```
 backgrounds/
-  AutumnForest/
-    AutumnForest.jsx      puts the layers together
-    AutumnForest.css      scene animations
-    placeholder.jpg       swap for the AI image later
-    background.config.js  name, default theme, thumbnail
+  NightFlight/
+    night-flight.png      the picture (16:9, e.g. 1920 x 1080)
+    background.config.js  id, name, picture, and its layers
+  layers/                 shared: SceneBackground draws any config
+    Stars, Clouds, Glow, Smoke
 ```
+- Positions are % of the picture, so layers stay lined up on any screen shape.
+- A layer can have an `area` (e.g. a window). It's then drawn only inside it, and its positions are % of that area.
+- Layer types: `stars` (twinkle), `clouds` (drift sideways), `glow` (lamps, lit windows; `flicker: true` for fire), `smoke` (chimneys, tea). Each layer's file says what it takes.
+- New layer type: make its component in `layers/`, add one line to `SceneLayer.jsx`.
+- Autumn forest, Night city and Cabin in the snow are still the old CSS-drawn placeholders. Move them over when their art is ready.
 
 ## Effects (overlays, any background)
 | Effect | Status |

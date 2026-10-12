@@ -14,3 +14,7 @@ export function loadData(key) {
 export function saveData(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
+
+export function removeData(key) {
+  localStorage.removeItem(key);
+}

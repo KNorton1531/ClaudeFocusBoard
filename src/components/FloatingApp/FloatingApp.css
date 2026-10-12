@@ -1,0 +1,89 @@
+/* Sits in the top left of the screen. Dragging moves it with a transform.
+   It has no padding, so the text can touch the edge of the screen. */
+.floating-app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+}
+
+/* The frosted card is drawn behind the App and a little bigger than it,
+   so it doesn't add any space around the App itself. */
+.floating-app::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--space-s) * -1) calc(var(--space-m) * -1);
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: background 200ms, border-color 200ms, box-shadow 200ms;
+}
+
+.floating-app:active {
+  cursor: grabbing;
+}
+
+/* Hovering brings back the frosted card (not for minimal Apps). */
+.floating-app:hover::before,
+.floating-app:focus-within::before {
+  background: var(--color-surface);
+  border-color: var(--color-line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+}
+
+.floating-app-minimal:hover::before,
+.floating-app-minimal:focus-within::before {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.floating-app-content {
+  position: relative;
+  transition: filter 200ms, opacity 200ms;
+}
+
+/* Hovering blurs the App so the buttons stand out on top. */
+.floating-app:hover .floating-app-content,
+.floating-app:focus-within .floating-app-content {
+  filter: blur(6px);
+  opacity: 0.6;
+}
+
+.floating-app-buttons {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.floating-app:hover .floating-app-buttons,
+.floating-app:focus-within .floating-app-buttons {
+  opacity: 1;
+}
+
+.floating-app-button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-surface-solid);
+  color: var(--color-text-soft);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.floating-app-button:hover {
+  color: var(--color-text);
+}

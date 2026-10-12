@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Quicksand:wght@500;700&display=swap");
+
+/* Sizes and fonts, then one file per theme. Add a new theme here too. */
+@import "./themes/base.css";
 @import "./themes/warm-cafe.css";
+@import "./themes/midnight.css";
+@import "./themes/forest.css";
+@import "./themes/sakura.css";
+@import "./themes/frost.css";
 
 * {
   box-sizing: border-box;
@@ -10,6 +17,8 @@ body,
 #root {
   margin: 0;
   height: 100%;
+  /* The board is fixed to the screen, so nothing should ever scroll. */
+  overflow: hidden;
 }
 
 body {

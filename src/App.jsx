@@ -1,30 +1,72 @@
 // App: the whole focus board.
 // Holds the settings and the list of Apps, and saves them when they change.
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Welcome from './components/Welcome/Welcome.jsx'
 import Board from './components/Board/Board.jsx'
-import SettingsBar from './components/SettingsBar/SettingsBar.jsx'
-import { findApp } from './apps/index.js'
+import MenuBar from './components/MenuBar/MenuBar.jsx'
+import AppsMenu from './components/AppsMenu/AppsMenu.jsx'
+import LookMenu from './components/LookMenu/LookMenu.jsx'
+import SettingsMenu from './components/SettingsMenu/SettingsMenu.jsx'
+import AppSettingsMenu from './components/AppSettingsMenu/AppSettingsMenu.jsx'
+import LofiPlayer from './components/LofiPlayer/LofiPlayer.jsx'
+import { findApp, withDefaultSettings } from './apps/index.js'
+import { findFreeSpot } from './components/Board/grid.js'
 import { findBackground } from './backgrounds/index.js'
-import { loadData, saveData } from './storage/storage.js'
+import { findEffect } from './effects/index.js'
+import { findTheme } from './themes/index.js'
+import { loadData, saveData, removeData } from './storage/storage.js'
 
 const DEFAULT_SETTINGS = {
   name: 'Kyle',
   backgroundId: 'autumn-forest',
+  themeId: 'warm-cafe',
+  effectId: 'none',
+  lofiStreamId: 'chillhop',
+  lofiVolume: 50,
+  lofiVideoBackground: false,
 }
 
 // What the board looks like the very first time.
-const DEFAULT_APPS = [
-  { id: 'clock-1', type: 'clock', x: 0, y: 0, w: 6, h: 5 },
-  { id: 'pomodoro-1', type: 'pomodoro', x: 7, y: 0, w: 6, h: 6 },
-]
+// The Apps start a little way down, so they don't cover the welcome message.
+// The clock floats, so it has "left" and "top" instead of a grid spot (see FloatingApp.jsx).
+function makeDefaultApps() {
+  return [
+    { id: 'clock-1', type: 'clock', left: 0.5, top: 0.15, hidden: false, settings: withDefaultSettings('clock') },
+    { id: 'pomodoro-1', type: 'pomodoro', x: 18, y: 2, w: 6, h: 5, hidden: false, settings: withDefaultSettings('pomodoro') },
+  ]
+}
+
+// Saved Apps may come from an older version, so fill in anything missing.
+function tidyApps(saved) {
+  return saved.map(function (app) {
+    let hidden = false
+    if (app.hidden) {
+      hidden = true
+    }
+
+    const tidied = { ...app, hidden: hidden, settings: withDefaultSettings(app.type, app.settings) }
+
+    // A floating App saved before it floated has no "left" and "top" yet.
+    const appInfo = findApp(app.type)
+    if (appInfo) {
+      if (appInfo.floating) {
+        if (tidied.left === undefined) {
+          tidied.left = appInfo.left
+          tidied.top = appInfo.top
+        }
+      }
+    }
+
+    return tidied
+  })
+}
 
 function App() {
   const [settings, setSettings] = useState(function () {
     const saved = loadData('settings')
 
     if (saved) {
-      return saved
+      return { ...DEFAULT_SETTINGS, ...saved }
     } else {
       return DEFAULT_SETTINGS
     }
@@ -34,11 +76,25 @@ function App() {
     const saved = loadData('apps')
 
     if (saved) {
-      return saved
+      return tidyApps(saved)
     } else {
-      return DEFAULT_APPS
+      return makeDefaultApps()
     }
   })
+
+  // Which menu is open, or an empty string when none is.
+  const [openMenu, setOpenMenu] = useState('')
+
+  // When openMenu is 'app-settings', this is the id of the App being edited.
+  const [settingsAppId, setSettingsAppId] = useState('')
+
+  // The theme is a set of CSS variables picked by an attribute on <html>.
+  useEffect(
+    function () {
+      document.documentElement.dataset.theme = findTheme(settings.themeId).id
+    },
+    [settings.themeId],
+  )
 
   function updateSettings(newSettings) {
     setSettings(newSettings)
@@ -50,27 +106,101 @@ function App() {
     saveData('apps', newApps)
   }
 
+  function handleOpenMenu(id) {
+    // Pressing the button of the open menu closes it again.
+    if (openMenu === id) {
+      setOpenMenu('')
+    } else {
+      setOpenMenu(id)
+    }
+  }
+
+  function handleCloseMenu() {
+    setOpenMenu('')
+  }
+
+  // Opens the pop-up settings for one App (used by floating Apps).
+  function handleOpenAppSettings(id) {
+    setSettingsAppId(id)
+    setOpenMenu('app-settings')
+  }
+
   function handleAddApp(type) {
     const appInfo = findApp(type)
 
-    // Put the new App underneath everything else, so it doesn't land on top of another App.
-    let lowestPoint = 0
-    for (const app of apps) {
-      if (app.y + app.h > lowestPoint) {
-        lowestPoint = app.y + app.h
+    // A floating App starts where its app.config.js says.
+    if (appInfo.floating) {
+      const newFloatingApp = {
+        id: type + '-' + Date.now(),
+        type: type,
+        left: appInfo.left,
+        top: appInfo.top,
+        hidden: false,
+        settings: withDefaultSettings(type),
       }
+
+      updateApps([...apps, newFloatingApp])
+      return
     }
+
+    // Look for an empty space, so a new App never lands on top of another one.
+    // Hidden Apps still hold their place, so they count as taken.
+    // Floating Apps aren't in the grid, so they don't count.
+    const gridApps = apps.filter(function (app) {
+      const info = findApp(app.type)
+
+      if (info) {
+        if (info.floating) {
+          return false
+        }
+      }
+
+      return true
+    })
+
+    const spot = findFreeSpot(gridApps, appInfo.w, appInfo.h)
 
     const newApp = {
       id: type + '-' + Date.now(),
       type: type,
-      x: 0,
-      y: lowestPoint,
-      w: appInfo.w,
-      h: appInfo.h,
+      x: spot.x,
+      y: spot.y,
+      w: spot.w,
+      h: spot.h,
+      hidden: false,
+      settings: withDefaultSettings(type),
     }
 
     updateApps([...apps, newApp])
+  }
+
+  // Hiding keeps the App and its place. Removing throws it away.
+  function handleToggleApp(id) {
+    const changed = apps.map(function (app) {
+      if (app.id === id) {
+        if (app.hidden) {
+          return { ...app, hidden: false }
+        } else {
+          return { ...app, hidden: true }
+        }
+      }
+
+      return app
+    })
+
+    updateApps(changed)
+  }
+
+  function handleHideApp(id) {
+    const changed = apps.map(function (app) {
+      if (app.id === id) {
+        return { ...app, hidden: true }
+      }
+
+      return app
+    })
+
+    updateApps(changed)
   }
 
   function handleRemoveApp(id) {
@@ -78,7 +208,38 @@ function App() {
       return app.id !== id
     })
 
+    // A sticky note saves its text under its own key, so clear that too.
+    removeData('note-' + id)
     updateApps(remaining)
+  }
+
+  function handleAppSettingsChange(id, newSettings) {
+    const changed = apps.map(function (app) {
+      if (app.id === id) {
+        return { ...app, settings: newSettings }
+      }
+
+      return app
+    })
+
+    updateApps(changed)
+  }
+
+  function handleResetBoard() {
+    updateApps(makeDefaultApps())
+  }
+
+  // Called when a floating App is dropped somewhere new.
+  function handleMoveApp(id, left, top) {
+    const moved = apps.map(function (app) {
+      if (app.id === id) {
+        return { ...app, left: left, top: top }
+      }
+
+      return app
+    })
+
+    updateApps(moved)
   }
 
   // Called by the grid after a drag or resize. Copy the new positions onto our Apps.
@@ -96,14 +257,71 @@ function App() {
     updateApps(moved)
   }
 
-  const BackgroundComponent = findBackground(settings.backgroundId).component
+  const background = findBackground(settings.backgroundId)
+  const BackgroundComponent = background.component
+  const EffectComponent = findEffect(settings.effectId).component
+
+  let effect = null
+  if (EffectComponent) {
+    effect = <EffectComponent />
+  }
+
+  let menu = null
+  if (openMenu === 'apps') {
+    menu = (
+      <AppsMenu
+        apps={apps}
+        onClose={handleCloseMenu}
+        onAddApp={handleAddApp}
+        onToggleApp={handleToggleApp}
+        onRemoveApp={handleRemoveApp}
+      />
+    )
+  } else if (openMenu === 'look') {
+    menu = <LookMenu settings={settings} onClose={handleCloseMenu} onSettingsChange={updateSettings} />
+  } else if (openMenu === 'settings') {
+    menu = (
+      <SettingsMenu
+        settings={settings}
+        onClose={handleCloseMenu}
+        onSettingsChange={updateSettings}
+        onResetBoard={handleResetBoard}
+      />
+    )
+  } else if (openMenu === 'app-settings') {
+    // The App might have been removed while its settings were open.
+    for (const app of apps) {
+      if (app.id === settingsAppId) {
+        menu = (
+          <AppSettingsMenu
+            app={app}
+            onClose={handleCloseMenu}
+            onSettingsChange={function (newSettings) {
+              handleAppSettingsChange(app.id, newSettings)
+            }}
+          />
+        )
+      }
+    }
+  }
 
   return (
     <>
-      <BackgroundComponent />
+      <BackgroundComponent background={background} />
+      {effect}
       <Welcome name={settings.name} />
-      <SettingsBar settings={settings} onSettingsChange={updateSettings} onAddApp={handleAddApp} />
-      <Board apps={apps} onLayoutChange={handleLayoutChange} onRemoveApp={handleRemoveApp} />
+      <MenuBar openMenu={openMenu} onOpenMenu={handleOpenMenu} />
+      {menu}
+      <LofiPlayer settings={settings} onSettingsChange={updateSettings} />
+      <Board
+        apps={apps}
+        onLayoutChange={handleLayoutChange}
+        onMoveApp={handleMoveApp}
+        onOpenAppSettings={handleOpenAppSettings}
+        onHideApp={handleHideApp}
+        onRemoveApp={handleRemoveApp}
+        onAppSettingsChange={handleAppSettingsChange}
+      />
     </>
   )
 }

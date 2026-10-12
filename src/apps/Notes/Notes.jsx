@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { loadData, saveData } from '../../storage/storage.js'
 import './Notes.css'
 
-function Notes({ appId }) {
+function Notes({ appId, settings }) {
   // Each note saves under its own key, so you can have more than one.
   const storageKey = 'note-' + appId
 
@@ -22,13 +22,10 @@ function Notes({ appId }) {
     saveData(storageKey, event.target.value)
   }
 
+  const className = 'notes notes-size-' + settings.textSize + ' notes-paper-' + settings.paper
+
   return (
-    <textarea
-      className="notes"
-      value={text}
-      onChange={handleChange}
-      placeholder="Write something..."
-    />
+    <textarea className={className} value={text} onChange={handleChange} placeholder="Write something..." />
   )
 }
 

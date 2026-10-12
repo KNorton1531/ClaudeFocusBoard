@@ -1,52 +1,72 @@
-// Pomodoro: a focus timer. 25 minutes focus, then a 5 minute break.
+// Pomodoro: a focus timer. The lengths come from the App's settings.
 import { useState, useEffect } from 'react'
 import './Pomodoro.css'
 
-const FOCUS_MINUTES = 25
-const BREAK_MINUTES = 5
-
 // Works out the next second of the timer.
-// When time runs out, it switches between focus and break.
-function nextTick(current) {
+// When the time runs out it swaps between focus and break, and only keeps
+// running if the settings say to start the next round on its own.
+function nextTick(current, settings) {
   if (current.secondsLeft > 1) {
-    return { mode: current.mode, secondsLeft: current.secondsLeft - 1 }
-  } else if (current.mode === 'focus') {
-    return { mode: 'break', secondsLeft: BREAK_MINUTES * 60 }
+    return { mode: current.mode, secondsLeft: current.secondsLeft - 1, isRunning: true }
+  }
+
+  if (current.mode === 'focus') {
+    return { mode: 'break', secondsLeft: settings.breakMinutes * 60, isRunning: settings.autoStartNext }
   } else {
-    return { mode: 'focus', secondsLeft: FOCUS_MINUTES * 60 }
+    return { mode: 'focus', secondsLeft: settings.focusMinutes * 60, isRunning: settings.autoStartNext }
   }
 }
 
-function Pomodoro() {
-  const [timer, setTimer] = useState({ mode: 'focus', secondsLeft: FOCUS_MINUTES * 60 })
-  const [isRunning, setIsRunning] = useState(false)
+// A fresh timer, ready at the start of a focus round.
+function makeTimer(settings) {
+  return { mode: 'focus', secondsLeft: settings.focusMinutes * 60, isRunning: false }
+}
+
+function Pomodoro({ settings }) {
+  const [timer, setTimer] = useState(function () {
+    return makeTimer(settings)
+  })
+
+  // Remembers which lengths the timer was built with, so we can spot a change.
+  const [builtWith, setBuiltWith] = useState(settings.focusMinutes + '-' + settings.breakMinutes)
+  const nowBuiltWith = settings.focusMinutes + '-' + settings.breakMinutes
+
+  // If the lengths were changed in settings, start again with the new ones.
+  if (builtWith !== nowBuiltWith) {
+    setBuiltWith(nowBuiltWith)
+    setTimer(makeTimer(settings))
+  }
 
   // Count down once a second while running.
-  useEffect(function () {
-    if (!isRunning) {
-      return
-    }
+  useEffect(
+    function () {
+      if (!timer.isRunning) {
+        return
+      }
 
-    const interval = setInterval(function () {
-      setTimer(nextTick)
-    }, 1000)
+      const interval = setInterval(function () {
+        setTimer(function (current) {
+          return nextTick(current, settings)
+        })
+      }, 1000)
 
-    return function () {
-      clearInterval(interval)
-    }
-  }, [isRunning])
+      return function () {
+        clearInterval(interval)
+      }
+    },
+    [timer.isRunning, settings],
+  )
 
   function handleStartPause() {
-    if (isRunning) {
-      setIsRunning(false)
+    if (timer.isRunning) {
+      setTimer({ ...timer, isRunning: false })
     } else {
-      setIsRunning(true)
+      setTimer({ ...timer, isRunning: true })
     }
   }
 
   function handleReset() {
-    setIsRunning(false)
-    setTimer({ mode: 'focus', secondsLeft: FOCUS_MINUTES * 60 })
+    setTimer(makeTimer(settings))
   }
 
   const minutes = String(Math.floor(timer.secondsLeft / 60)).padStart(2, '0')
@@ -60,7 +80,7 @@ function Pomodoro() {
   }
 
   let buttonLabel = ''
-  if (isRunning) {
+  if (timer.isRunning) {
     buttonLabel = 'Pause'
   } else {
     buttonLabel = 'Start'

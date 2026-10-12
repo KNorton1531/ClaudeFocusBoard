@@ -1,0 +1,56 @@
+.menu-bar {
+  position: fixed;
+  top: var(--space-l);
+  right: var(--space-l);
+  z-index: 40;
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow);
+  opacity: 0.6;
+  transition: opacity 250ms;
+}
+
+.menu-bar:hover,
+.menu-bar:focus-within {
+  opacity: 1;
+}
+
+.menu-bar-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.menu-bar-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.menu-bar-button-open {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  font-weight: 600;
+}
+
+.menu-bar-button-open:hover {
+  background: var(--color-accent);
+}
+
+.menu-bar-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}

@@ -2,7 +2,8 @@
   position: fixed;
   top: var(--space-l);
   left: var(--space-l);
-  z-index: 10;
+  /* Below the board (5), so Apps can be dragged over it. */
+  z-index: 4;
   max-width: 60%;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
   pointer-events: none;

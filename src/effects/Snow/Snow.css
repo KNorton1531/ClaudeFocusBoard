@@ -1,0 +1,22 @@
+.snow-flake {
+  position: absolute;
+  top: -5%;
+  border-radius: 50%;
+  background: #ffffff;
+  filter: blur(0.4px);
+  animation-name: snow-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes snow-fall {
+  from {
+    transform: translate3d(0, -10vh, 0);
+  }
+  50% {
+    transform: translate3d(28px, 55vh, 0);
+  }
+  to {
+    transform: translate3d(0, 115vh, 0);
+  }
+}

@@ -1,86 +1,160 @@
-/* Placeholder picture: a night sky. Swap for the AI image later:
+/* Placeholder picture: a night sky, deepest at the top.
+   Swap for the AI image later by changing this one line to:
    background-image: url('./night-city.jpg'); */
 .night-city .background-image {
-  background-image: linear-gradient(180deg, #0b1026 0%, #1f1b45 55%, #3d2a5c 100%);
+  background-image: linear-gradient(
+    180deg,
+    #060a1d 0%,
+    #0d1430 34%,
+    #1c1d46 55%,
+    #34244f 76%,
+    #4a2f52 100%
+  );
 }
 
-.night-city .stars {
+.night-city .star {
   position: absolute;
-  inset: 0 0 50% 0;
-  background-image:
-    radial-gradient(1px 1px at 10% 20%, white, transparent),
-    radial-gradient(1px 1px at 30% 10%, white, transparent),
-    radial-gradient(1px 1px at 55% 25%, white, transparent),
-    radial-gradient(1px 1px at 75% 15%, white, transparent),
-    radial-gradient(1px 1px at 90% 30%, white, transparent);
-  opacity: 0.7;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: star-twinkle 5s ease-in-out infinite;
 }
 
-.night-city .skyline {
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.night-city .moon {
+  position: absolute;
+  top: 12%;
+  right: 18%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #f4f1e0;
+  box-shadow: 0 0 40px 14px rgba(244, 241, 224, 0.28);
+}
+
+/* Far towers: hazy and low contrast. */
+.night-city .skyline-far {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24%;
+  height: 30%;
+  opacity: 0.6;
+  background:
+    linear-gradient(#232048, #232048) 3% 100% / 7% 58% no-repeat,
+    linear-gradient(#1c1940, #1c1940) 14% 100% / 5% 78% no-repeat,
+    linear-gradient(#262252, #262252) 24% 100% / 8% 46% no-repeat,
+    linear-gradient(#1c1940, #1c1940) 37% 100% / 6% 70% no-repeat,
+    linear-gradient(#232048, #232048) 49% 100% / 7% 54% no-repeat,
+    linear-gradient(#262252, #262252) 61% 100% / 5% 82% no-repeat,
+    linear-gradient(#1c1940, #1c1940) 72% 100% / 8% 50% no-repeat,
+    linear-gradient(#232048, #232048) 85% 100% / 6% 68% no-repeat,
+    linear-gradient(#262252, #262252) 96% 100% / 5% 44% no-repeat;
+}
+
+/* The orange city glow sitting on the rooftops. */
+.night-city .city-glow {
+  bottom: 18%;
+  height: 26%;
+  background: linear-gradient(180deg, transparent, rgba(255, 150, 80, 0.18) 60%, rgba(255, 170, 110, 0.1));
+  filter: blur(16px);
+}
+
+/* Near towers: darker and taller, so they sit in front. */
+.night-city .skyline-near {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 50%;
+  height: 46%;
   background:
-    linear-gradient(#141128, #141128) 5% 100% / 10% 60% no-repeat,
-    linear-gradient(#18142f, #18142f) 18% 100% / 8% 80% no-repeat,
-    linear-gradient(#110e22, #110e22) 30% 100% / 12% 70% no-repeat,
-    linear-gradient(#18142f, #18142f) 45% 100% / 9% 90% no-repeat,
-    linear-gradient(#141128, #141128) 57% 100% / 11% 65% no-repeat,
-    linear-gradient(#110e22, #110e22) 70% 100% / 8% 85% no-repeat,
-    linear-gradient(#18142f, #18142f) 82% 100% / 12% 60% no-repeat,
-    linear-gradient(#141128, #141128) 96% 100% / 8% 75% no-repeat;
+    linear-gradient(#0e0c22, #0e0c22) 8% 100% / 11% 64% no-repeat,
+    linear-gradient(#12102b, #12102b) 21% 100% / 8% 86% no-repeat,
+    linear-gradient(#0b0a1c, #0b0a1c) 32% 100% / 13% 52% no-repeat,
+    linear-gradient(#12102b, #12102b) 47% 100% / 9% 92% no-repeat,
+    linear-gradient(#0e0c22, #0e0c22) 59% 100% / 12% 60% no-repeat,
+    linear-gradient(#0b0a1c, #0b0a1c) 73% 100% / 8% 78% no-repeat,
+    linear-gradient(#12102b, #12102b) 85% 100% / 13% 56% no-repeat,
+    linear-gradient(#0e0c22, #0e0c22) 98% 100% / 9% 70% no-repeat;
 }
 
 .night-city .city-light {
   position: absolute;
-  width: 8px;
-  height: 10px;
+  width: 5px;
+  height: 7px;
   background: #ffd98a;
-  box-shadow: 0 0 8px #ffb84d;
-  animation: light-flicker 12s steps(1) infinite;
+  box-shadow: 0 0 7px 1px rgba(255, 184, 77, 0.85);
+  animation-name: light-flicker;
+  animation-timing-function: steps(1);
+  animation-iteration-count: infinite;
 }
 
 @keyframes light-flicker {
   0%,
-  60% {
-    opacity: 1;
+  62% {
+    opacity: 0.95;
   }
-  61%,
-  80% {
-    opacity: 0;
+  63%,
+  78% {
+    opacity: 0.1;
   }
-  81%,
+  79%,
   100% {
-    opacity: 1;
+    opacity: 0.95;
   }
 }
 
+/* Headlights crossing the street below. */
 .night-city .car-light {
   position: absolute;
-  bottom: 3%;
-  width: 60px;
-  height: 3px;
+  bottom: 4%;
+  width: 70px;
+  height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, transparent, #ff6b5a);
-  animation: car-pass 14s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 220, 160, 0.9));
+  filter: blur(1px);
+  animation: car-pass 13s linear infinite;
+}
+
+.night-city .car-light-slow {
+  bottom: 2%;
+  width: 90px;
+  background: linear-gradient(270deg, transparent, rgba(255, 110, 90, 0.85));
+  animation-duration: 21s;
+  animation-delay: -7s;
 }
 
 @keyframes car-pass {
   from {
-    left: -80px;
+    left: -120px;
   }
   to {
     left: 100%;
   }
 }
 
-/* The bedroom window around the view */
+/* The bedroom window you are looking through. This is the nearest layer,
+   so it sits outside .scene and above everything else in the picture. */
 .night-city .window-frame {
   position: absolute;
   inset: 0;
-  border: 28px solid #1a1422;
-  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.7);
-  background: linear-gradient(#1a1422, #1a1422) center / 14px 100% no-repeat;
+  pointer-events: none;
+  border: 26px solid #171320;
+  border-bottom-width: 64px;
+  box-shadow:
+    inset 0 0 90px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.04);
+  background:
+    linear-gradient(#171320, #171320) center / 12px 100% no-repeat,
+    linear-gradient(#171320, #171320) 0 42% / 100% 10px no-repeat;
 }

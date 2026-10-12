@@ -1,0 +1,11 @@
+/* Forest: greens and wood tones. */
+[data-theme="forest"] {
+  --color-bg: #16231a;
+  --color-surface: rgba(24, 43, 30, 0.48);
+  --color-surface-solid: rgba(17, 32, 22, 0.92);
+  --color-line: rgba(233, 244, 231, 0.14);
+  --color-text: #e9f4e7;
+  --color-text-soft: #a9c4a6;
+  --color-accent: #8fc98a;
+  --color-accent-text: #16231a;
+}

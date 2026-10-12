@@ -1,18 +1,11 @@
-/* Warm Cafe theme. A theme is just a set of CSS variables. */
-:root {
+/* Warm Cafe: browns, cream, soft orange. */
+[data-theme="warm-cafe"] {
   --color-bg: #2b211c;
   --color-surface: rgba(40, 28, 22, 0.45);
+  --color-surface-solid: rgba(32, 23, 18, 0.92);
+  --color-line: rgba(246, 234, 216, 0.14);
   --color-text: #f6ead8;
   --color-text-soft: #cdb89f;
   --color-accent: #e8a86b;
-
-  --font-body: "Nunito", sans-serif;
-  --font-heading: "Quicksand", sans-serif;
-
-  --radius: 16px;
-  --blur: 12px;
-  --space-s: 8px;
-  --space-m: 16px;
-  --space-l: 24px;
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --color-accent-text: #2b211c;
 }

@@ -1,0 +1,44 @@
+/* Shared sizes, fonts and shadows. These are the same in every theme.
+   Only the colours change per theme, in the theme files next to this one.
+
+   The colours below are fallbacks, used for the split second before the
+   chosen theme is applied, and if a saved theme no longer exists.
+   Every theme file is loaded after this one, so a real theme always wins. */
+:root {
+  --color-bg: #2b211c;
+  --color-surface: rgba(40, 28, 22, 0.45);
+  --color-surface-solid: rgba(32, 23, 18, 0.92);
+  --color-line: rgba(246, 234, 216, 0.14);
+  --color-text: #f6ead8;
+  --color-text-soft: #cdb89f;
+  --color-accent: #e8a86b;
+  --color-accent-text: #2b211c;
+
+  --font-body: "Nunito", sans-serif;
+  --font-heading: "Quicksand", sans-serif;
+
+  --radius: 16px;
+  --radius-s: 10px;
+  --blur: 12px;
+
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 24px;
+
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-panel: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --shadow-text: 0 2px 10px rgba(0, 0, 0, 0.45);
+
+  /* How big the clock's time is at each size setting. */
+  --clock-size-small: 2.4rem;
+  --clock-size-medium: 4rem;
+  --clock-size-large: 6rem;
+  --clock-size-huge: 9rem;
+
+  /* Gap between the board and the edge of the screen. */
+  --board-edge: 24px;
+
+  /* Height of the music bar at the bottom, and the room the board leaves for it. */
+  --player-height: 52px;
+  --player-space: 68px;
+}

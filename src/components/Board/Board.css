@@ -1,13 +1,36 @@
+/* The board fills the whole screen, so Apps can go anywhere.
+   It sits above the welcome message, so an App can cover it.
+   It is fixed in place, so the page itself never scrolls.
+   It stops above the music bar, so Apps never sit under it. */
 .board {
-  position: relative;
+  position: fixed;
+  top: var(--board-edge);
+  right: var(--board-edge);
+  bottom: calc(var(--board-edge) + var(--player-space));
+  left: var(--board-edge);
   z-index: 5;
-  min-height: 100%;
-  padding-top: 140px;
+}
+
+/* Floating Apps (like the clock) cover the whole screen, edge to edge.
+   Clicks pass through the empty parts to the grid Apps underneath. */
+.floating-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.floating-layer > * {
+  pointer-events: auto;
 }
 
 /* Softer resize handle so it fits the cozy look */
 .board .react-resizable-handle {
-  opacity: 0.4;
+  opacity: 0.35;
+}
+
+.board .react-resizable-handle:hover {
+  opacity: 0.9;
 }
 
 .board .react-grid-placeholder {
@@ -15,3 +38,4 @@
   border-radius: var(--radius);
   opacity: 0.2;
 }
+

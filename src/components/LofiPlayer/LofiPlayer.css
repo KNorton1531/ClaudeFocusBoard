@@ -1,0 +1,312 @@
+/* The stream's video. It sits above the background and below the effects,
+   and is see-through until "video background" is turned on. */
+.lofi-video {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.lofi-video-shown {
+  opacity: 1;
+}
+
+/* Fills the screen like background-size: cover, keeping the 16:9 shape.
+   It is drawn a bit bigger than the screen, so YouTube's title and logo
+   are cut off at the edges. */
+.lofi-video-frame iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+  border: 0;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* The cover picture over the video (see VideoStill.jsx). It fades in fast,
+   so it covers the video before the sound has finished fading out. */
+.lofi-video-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.lofi-video-still-shown {
+  opacity: 1;
+}
+
+/* The smaller picture has black bars top and bottom. Zooming in hides them. */
+.lofi-video-still-small {
+  transform: scale(1.34);
+}
+
+/* Same soft dark edges as the backgrounds, so text stays readable. */
+.lofi-video-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, transparent 32%),
+    radial-gradient(120% 90% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* The bar itself, centred at the bottom of the screen. */
+.lofi-player {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-m);
+  z-index: 40;
+  transform: translateX(-50%);
+}
+
+.lofi-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  height: var(--player-height);
+  padding: 0 var(--space-s);
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow);
+  opacity: 0.7;
+  transition: opacity 250ms;
+}
+
+.lofi-player:hover .lofi-bar,
+.lofi-player:focus-within .lofi-bar {
+  opacity: 1;
+}
+
+/* What's playing: thumbnail, name and status. Click it for the stream list. */
+.lofi-now {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 220px;
+  padding: 4px 10px 4px 4px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.lofi-now:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.lofi-thumb {
+  width: 54px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.lofi-now-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.lofi-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.lofi-status {
+  font-size: 0.72rem;
+  color: var(--color-text-soft);
+}
+
+/* A small pulsing dot when the stream is live. */
+.lofi-status-live::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  vertical-align: 1px;
+  animation: lofi-live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes lofi-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.lofi-controls,
+.lofi-extras {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.lofi-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.lofi-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.lofi-button-on {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+.lofi-button-on:hover {
+  background: var(--color-accent);
+}
+
+/* The play button is the biggest one. */
+.lofi-play {
+  width: 40px;
+  height: 40px;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: 0.8rem;
+}
+
+.lofi-play:hover {
+  background: var(--color-accent);
+  filter: brightness(1.1);
+}
+
+.lofi-volume {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-soft);
+}
+
+.lofi-volume input {
+  width: 90px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+/* The pop-up list of streams, above the bar. */
+.station-list {
+  position: absolute;
+  bottom: calc(100% + var(--space-s));
+  left: 0;
+  width: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: var(--space-s);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface-solid);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow-panel);
+  animation: station-list-in 160ms ease-out;
+}
+
+@keyframes station-list-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.station {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px;
+  border: none;
+  border-radius: var(--radius-s);
+  background: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.station:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.station-picked {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.station-thumb {
+  width: 64px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.station-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.station-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.station-picked .station-name {
+  color: var(--color-accent);
+}
+
+.station-channel {
+  font-size: 0.72rem;
+  color: var(--color-text-soft);
+}
+
+/* On narrow screens, drop the volume slider so the bar still fits. */
+@media (max-width: 640px) {
+  .lofi-volume {
+    display: none;
+  }
+
+  .lofi-now {
+    width: 150px;
+  }
+}

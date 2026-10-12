@@ -1,0 +1,20 @@
+.rain-drop {
+  position: absolute;
+  top: -12%;
+  width: 1px;
+  height: 64px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(200, 225, 255, 0.85));
+  animation-name: rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rain-fall {
+  from {
+    transform: translate3d(0, -20vh, 0);
+  }
+  to {
+    transform: translate3d(-40px, 120vh, 0);
+  }
+}

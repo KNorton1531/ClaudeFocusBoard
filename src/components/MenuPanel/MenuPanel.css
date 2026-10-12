@@ -1,0 +1,84 @@
+.menu-panel {
+  position: fixed;
+  top: 76px;
+  right: var(--space-l);
+  z-index: 30;
+  width: 300px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface-solid);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow-panel);
+  animation: menu-panel-in 160ms ease-out;
+}
+
+@keyframes menu-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-m) var(--space-m) var(--space-s);
+}
+
+.menu-panel-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.menu-panel-close {
+  border: none;
+  background: none;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.menu-panel-close:hover {
+  color: var(--color-text);
+}
+
+.menu-panel-body {
+  padding: 0 var(--space-m) var(--space-m);
+  overflow-y: auto;
+}
+
+/* Shared bits the menus use inside the panel. */
+.menu-section {
+  margin-top: var(--space-m);
+}
+
+.menu-section:first-child {
+  margin-top: 0;
+}
+
+.menu-section-title {
+  margin: 0 0 var(--space-s);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-soft);
+}
+
+.menu-hint {
+  margin: var(--space-s) 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-text-soft);
+}

@@ -1,0 +1,9 @@
+/* Shared layer for every effect.
+   Effects sit ABOVE the background and BELOW the apps, and never catch clicks. */
+.effect {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}

@@ -1,19 +1,54 @@
 .clock {
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+  /* Keeps the text readable on any background. */
+  text-shadow: var(--shadow-text);
+}
+
+/* Fonts leave empty space above and below the letters. "text-box" trims it,
+   so the text can sit right against the edge of the screen. */
+.clock-label,
+.clock-time,
+.clock-date {
+  text-box: trim-both cap alphabetic;
+}
+
+.clock-label {
+  margin-bottom: var(--space-s);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 .clock-time {
   font-family: var(--font-heading);
-  font-size: 3.5rem;
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.clock-size-small .clock-time {
+  font-size: var(--clock-size-small);
+}
+
+.clock-size-medium .clock-time {
+  font-size: var(--clock-size-medium);
+}
+
+.clock-size-large .clock-time {
+  font-size: var(--clock-size-large);
+}
+
+.clock-size-huge .clock-time {
+  font-size: var(--clock-size-huge);
 }
 
 .clock-date {
   margin-top: var(--space-s);
   color: var(--color-text-soft);
+  font-size: 0.95rem;
 }

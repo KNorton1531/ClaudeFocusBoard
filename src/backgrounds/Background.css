@@ -1,8 +1,9 @@
 /* Shared layers used by every background.
-   Layer 1: .background (base color)
-   Layer 2: .background-image (the static picture, or a CSS placeholder)
-   Layer 3: .scene (scene animations that belong to this background)
-   Effects (rain, snow) are separate and sit above these. */
+   Layer 1: .background       base colour, shows while an image loads
+   Layer 2: .background-image the static picture, or a CSS placeholder
+   Layer 3: .scene            scene animations that belong to THIS background
+   Layer 4: .background-vignette  soft dark edges, so the apps stand out
+   Effects (rain, snow) are separate and sit above all of this. */
 .background {
   position: fixed;
   inset: 0;
@@ -24,22 +25,45 @@
   pointer-events: none;
 }
 
-/* Drifting clouds, used by more than one background */
+/* Darkens the corners and the top, so white text stays readable
+   whatever the picture behind it looks like. */
+.background-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, transparent 32%),
+    radial-gradient(120% 90% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* Drifting clouds, used by more than one background. */
 .cloud {
   position: absolute;
-  width: 260px;
-  height: 60px;
+  width: 320px;
+  height: 70px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  filter: blur(18px);
-  animation: cloud-drift linear infinite;
+  background: rgba(255, 255, 255, 0.2);
+  filter: blur(26px);
+  animation-name: cloud-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 @keyframes cloud-drift {
   from {
-    transform: translateX(-400px);
+    transform: translateX(-420px);
   }
   to {
-    transform: translateX(calc(100vw + 400px));
+    transform: translateX(calc(100vw + 420px));
   }
+}
+
+/* A soft haze that sits between the far and near layers.
+   It is what makes a flat CSS scene feel like it has depth. */
+.haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30%;
+  pointer-events: none;
 }

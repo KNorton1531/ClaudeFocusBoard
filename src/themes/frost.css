@@ -1,0 +1,11 @@
+/* Frost: pale blue, white, glassy. */
+[data-theme="frost"] {
+  --color-bg: #1a2634;
+  --color-surface: rgba(37, 56, 76, 0.45);
+  --color-surface-solid: rgba(24, 37, 51, 0.92);
+  --color-line: rgba(233, 244, 255, 0.18);
+  --color-text: #eaf4ff;
+  --color-text-soft: #aac4dc;
+  --color-accent: #7fc8e8;
+  --color-accent-text: #1a2634;
+}
