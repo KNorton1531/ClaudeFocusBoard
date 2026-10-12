@@ -1,4 +1,4 @@
-// MenuBar: the row of buttons in the top right that open the menus.
+// MenuBar: the row of buttons beside the music bar that open the menus.
 // Only one menu is open at a time.
 import './MenuBar.css'
 

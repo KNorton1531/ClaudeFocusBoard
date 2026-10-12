@@ -1,88 +1,73 @@
 // AppsMenu: the "Apps" menu.
-// Shows every App on the board with a switch to show or hide it,
-// and a list underneath for adding more.
+// Lists every App, each with a switch to show or hide it.
+// Switching on an App that isn't on the board yet adds it.
 import MenuPanel from '../MenuPanel/MenuPanel.jsx'
-import { appList, findApp } from '../../apps/index.js'
+import { appList } from '../../apps/index.js'
 import './AppsMenu.css'
 
-function AppsMenu({ apps, onClose, onAddApp, onToggleApp, onRemoveApp }) {
-  // Only Apps that still exist in apps/index.js can be listed.
-  const knownApps = apps.filter(function (app) {
-    if (findApp(app.type)) {
-      return true
-    } else {
-      return false
-    }
-  })
+function AppsMenu({ apps, onClose, onAddApp, onToggleApp }) {
+  const rows = []
 
-  const rows = knownApps.map(function (app) {
-    const appInfo = findApp(app.type)
+  // Go through the Apps in the same order as apps/index.js.
+  for (const appInfo of appList) {
+    const onBoard = apps.filter(function (app) {
+      return app.type === appInfo.type
+    })
 
-    let isShown = true
-    if (app.hidden) {
-      isShown = false
-    }
-
-    return (
-      <div key={app.id} className="apps-menu-row">
-        <label className="apps-menu-toggle">
+    if (onBoard.length === 0) {
+      // Not on the board yet, so the switch is off and turning it on adds it.
+      rows.push(
+        <div key={appInfo.type} className="apps-menu-row">
+          <span className="apps-menu-name">{appInfo.name}</span>
           <input
             type="checkbox"
-            checked={isShown}
+            className="apps-menu-switch"
+            title="Show"
+            checked={false}
             onChange={function () {
-              onToggleApp(app.id)
+              onAddApp(appInfo.type)
             }}
           />
-          <span className="apps-menu-name">{appInfo.name}</span>
-        </label>
-        <button
-          className="apps-menu-remove"
-          title="Remove this app for good"
-          onClick={function () {
-            onRemoveApp(app.id)
-          }}
-        >
-          ✕
-        </button>
-      </div>
-    )
-  })
+        </div>,
+      )
+    } else {
+      // On the board. There might be more than one (like two sticky notes),
+      // so number them when there are.
+      onBoard.forEach(function (app, index) {
+        let name = appInfo.name
+        if (onBoard.length > 1) {
+          name = appInfo.name + ' ' + (index + 1)
+        }
 
-  const addButtons = appList.map(function (appInfo) {
-    return (
-      <button
-        key={appInfo.type}
-        className="apps-menu-add"
-        onClick={function () {
-          onAddApp(appInfo.type)
-        }}
-      >
-        + {appInfo.name}
-      </button>
-    )
-  })
+        let isShown = true
+        let switchTitle = 'Hide'
+        if (app.hidden) {
+          isShown = false
+          switchTitle = 'Show'
+        }
 
-  let onBoard = null
-  if (knownApps.length > 0) {
-    onBoard = <div className="apps-menu-list">{rows}</div>
-  } else {
-    onBoard = <p className="menu-hint">No apps yet. Add one below.</p>
+        rows.push(
+          <div key={app.id} className="apps-menu-row">
+            <span className="apps-menu-name">{name}</span>
+            <input
+              type="checkbox"
+              className="apps-menu-switch"
+              title={switchTitle}
+              checked={isShown}
+              onChange={function () {
+                onToggleApp(app.id)
+              }}
+            />
+          </div>,
+        )
+      })
+    }
   }
 
   return (
     <MenuPanel title="Apps" onClose={onClose}>
-      <div className="menu-section">
-        <h3 className="menu-section-title">On the board</h3>
-        {onBoard}
-      </div>
-
-      <div className="menu-section">
-        <h3 className="menu-section-title">Add an app</h3>
-        <div className="apps-menu-add-list">{addButtons}</div>
-        <p className="menu-hint">
-          Unticking an app hides it and keeps its place. The ✕ removes it for good.
-        </p>
-      </div>
+      <div className="apps-menu-list">{rows}</div>
+      <p className="menu-hint">Switching an app off hides it. Its place and settings are kept for next time.</p>
     </MenuPanel>
   )
 }

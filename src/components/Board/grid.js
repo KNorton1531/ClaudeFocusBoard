@@ -6,6 +6,13 @@ export const COLUMNS = 24
 export const ROWS = 12
 export const GAP = 14
 
+// Apps can be resized from every side and corner.
+// n = top, s = bottom, e = right, w = left.
+export const RESIZE_HANDLES = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw']
+
+// Pressing on any of these never starts a drag, so they still work as normal.
+export const DRAG_CANCEL = 'button, input, textarea, select, a'
+
 // Keeps one App inside the grid, in case a saved App is too big or off the edge.
 export function keepInside(app) {
   const w = Math.min(app.w, COLUMNS)

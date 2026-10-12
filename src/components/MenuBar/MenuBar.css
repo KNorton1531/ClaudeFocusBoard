@@ -1,10 +1,14 @@
+/* Sits on the same row as the music bar, just to its right.
+   The music bar stays in the middle of the screen. */
 .menu-bar {
   position: fixed;
-  top: var(--space-l);
-  right: var(--space-l);
+  bottom: var(--space-m);
+  left: calc(50% + var(--player-width) / 2 + var(--space-s));
   z-index: 40;
   display: flex;
+  align-items: center;
   gap: 4px;
+  height: var(--player-height);
   padding: 5px;
   border-radius: 999px;
   border: 1px solid var(--color-line);
@@ -53,4 +57,20 @@
 .menu-bar-icon {
   font-size: 0.95rem;
   line-height: 1;
+}
+
+/* Less room beside the music bar: show the icons only. */
+@media (max-width: 1300px) {
+  .menu-bar-name {
+    display: none;
+  }
+}
+
+/* No room beside it at all: sit just above the music bar instead. */
+@media (max-width: 940px) {
+  .menu-bar {
+    left: 50%;
+    bottom: calc(var(--space-m) + var(--player-height) + var(--space-s));
+    transform: translateX(-50%);
+  }
 }

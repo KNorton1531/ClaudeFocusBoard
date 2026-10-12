@@ -11,7 +11,7 @@ import AppFrame from '../AppFrame/AppFrame.jsx'
 import FloatingApp from '../FloatingApp/FloatingApp.jsx'
 import { findApp } from '../../apps/index.js'
 import { useElementSize } from './useElementSize.js'
-import { COLUMNS, ROWS, GAP, keepInside } from './grid.js'
+import { COLUMNS, ROWS, GAP, RESIZE_HANDLES, DRAG_CANCEL, keepInside } from './grid.js'
 import './Board.css'
 
 function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, onRemoveApp, onAppSettingsChange }) {
@@ -76,6 +76,7 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
       <div key={app.id}>
         <AppFrame
           title={appInfo.name}
+          compact={appInfo.compact}
           settingsFields={appInfo.settingsFields}
           settings={app.settings}
           onSettingsChange={function (newSettings) {
@@ -111,7 +112,10 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
           margin: [GAP, GAP],
           containerPadding: [0, 0],
         }}
-        dragConfig={{ bounded: true, handle: '.app-frame-bar', cancel: '.app-frame-button' }}
+        // Drag by the title bar (or anywhere on a compact App), but never
+        // start a drag from a button or a box you type in.
+        dragConfig={{ bounded: true, handle: '.app-drag-handle', cancel: DRAG_CANCEL }}
+        resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }}
         compactor={noCompactor}
         onLayoutChange={onLayoutChange}
       >

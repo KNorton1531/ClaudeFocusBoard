@@ -1,10 +1,12 @@
 .menu-panel {
+  /* Opens upwards from the menu bar at the bottom. If there isn't room
+     to its right, it slides left so it stays on screen. */
   position: fixed;
-  top: 76px;
-  right: var(--space-l);
+  bottom: calc(var(--space-m) + var(--player-height) + var(--space-s));
+  left: min(calc(50% + var(--player-width) / 2 + var(--space-s)), calc(100vw - 300px - var(--space-l)));
   z-index: 30;
   width: 300px;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - var(--player-height) - 60px);
   display: flex;
   flex-direction: column;
   border-radius: var(--radius);
@@ -19,7 +21,7 @@
 @keyframes menu-panel-in {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -81,4 +83,12 @@
   font-size: 0.78rem;
   line-height: 1.4;
   color: var(--color-text-soft);
+}
+
+/* When the menu bar sits above the music bar, open above that instead. */
+@media (max-width: 940px) {
+  .menu-panel {
+    bottom: calc(var(--space-m) + var(--player-height) * 2 + var(--space-s) * 2);
+    max-height: calc(100vh - var(--player-height) * 2 - 70px);
+  }
 }

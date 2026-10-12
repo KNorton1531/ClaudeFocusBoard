@@ -1,11 +1,15 @@
 // AppFrame: the frosted card every grid App sits inside.
 // The title bar is the drag handle. The buttons open settings, hide the App,
 // or remove it. Pressing the gear flips the card over to show its settings.
+//
+// A "compact" App (compact: true in its app.config.js) has no title bar, so
+// its content can use the whole card. You drag it from anywhere, and the
+// buttons appear in the top right corner when you hover.
 import { useState } from 'react'
 import SettingsFields from '../SettingsFields/SettingsFields.jsx'
 import './AppFrame.css'
 
-function AppFrame({ title, settingsFields, settings, onSettingsChange, onHide, onRemove, children }) {
+function AppFrame({ title, compact, settingsFields, settings, onSettingsChange, onHide, onRemove, children }) {
   const [isEditing, setIsEditing] = useState(false)
 
   function handleToggleSettings() {
@@ -36,19 +40,33 @@ function AppFrame({ title, settingsFields, settings, onSettingsChange, onHide, o
     )
   }
 
+  const buttons = (
+    <div className="app-frame-buttons">
+      {settingsButton}
+      <button className="app-frame-button" onClick={onHide} title="Hide this app">
+        –
+      </button>
+      <button className="app-frame-button" onClick={onRemove} title="Remove this app">
+        ✕
+      </button>
+    </div>
+  )
+
+  // "app-drag-handle" is the part you can drag the App by (see Board.jsx).
+  if (compact) {
+    return (
+      <div className="app-frame app-frame-compact app-drag-handle">
+        {body}
+        {buttons}
+      </div>
+    )
+  }
+
   return (
     <div className="app-frame">
-      <div className="app-frame-bar">
+      <div className="app-frame-bar app-drag-handle">
         <span className="app-frame-title">{title}</span>
-        <div className="app-frame-buttons">
-          {settingsButton}
-          <button className="app-frame-button" onClick={onHide} title="Hide this app">
-            –
-          </button>
-          <button className="app-frame-button" onClick={onRemove} title="Remove this app">
-            ✕
-          </button>
-        </div>
+        {buttons}
       </div>
       {body}
     </div>

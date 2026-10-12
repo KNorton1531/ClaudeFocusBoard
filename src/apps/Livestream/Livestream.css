@@ -1,0 +1,302 @@
+/* The stream fills the card, with the media bar underneath. */
+.livestream {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+/* Full screen: the stream and its bar, on the page colour. */
+.livestream:fullscreen {
+  padding: var(--space-m);
+  background: var(--color-bg);
+}
+
+/* The box the YouTube player goes inside. */
+.livestream-screen {
+  flex: 1;
+  min-height: 0;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  background: var(--color-video);
+}
+
+.livestream-screen iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Nothing added yet */
+.livestream-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-m);
+}
+
+.livestream-message {
+  max-width: 18em;
+  margin: 0 auto;
+  color: var(--color-text-soft);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Media bar: name and status on the left, buttons in the middle, sound on the right.
+   It wraps onto two lines when the card is narrow. */
+.livestream-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+}
+
+/* "On hover" setting: the bar floats over the bottom of the stream and
+   only shows while the mouse is over the App. */
+.livestream-hover-controls .livestream-controls {
+  position: absolute;
+  left: var(--space-s);
+  right: var(--space-s);
+  bottom: var(--space-s);
+  padding: 6px 10px;
+  border-radius: var(--radius-s);
+  background: var(--color-surface-solid);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.livestream-hover-controls:hover .livestream-controls,
+.livestream-hover-controls:focus-within .livestream-controls {
+  opacity: 1;
+}
+
+.livestream-now {
+  min-width: 0;
+  flex: 1 1 8em;
+  display: flex;
+  flex-direction: column;
+}
+
+.livestream-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.livestream-status {
+  color: var(--color-text-soft);
+  font-size: 0.75rem;
+}
+
+/* A little red dot before "Live". */
+.livestream-status-live::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--color-live);
+  vertical-align: 1px;
+}
+
+.livestream-buttons,
+.livestream-sound {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.livestream-button {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.livestream-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--color-text);
+}
+
+.livestream-play {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+.livestream-play:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  filter: brightness(1.1);
+}
+
+.livestream-volume {
+  width: 80px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+/* Small rounded buttons: Done, Add, Add a stream */
+.livestream-pill {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.livestream-pill:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Streams panel, laid over the whole App */
+.livestream-panel-cover {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  border-radius: var(--radius-s);
+  background: var(--color-surface-solid);
+}
+
+.livestream-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  padding: var(--space-s);
+}
+
+.livestream-panel-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.livestream-panel-title {
+  color: var(--color-text-soft);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.livestream-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.livestream-form-row {
+  display: flex;
+  gap: var(--space-s);
+}
+
+.livestream-input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-s);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.livestream-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.livestream-problem {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+}
+
+.livestream-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.livestream-list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.livestream-list-pick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  padding: 6px 8px;
+  border: none;
+  border-radius: var(--radius-s);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.livestream-list-pick:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.livestream-list-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.livestream-remove {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+
+.livestream-remove:hover {
+  color: var(--color-text);
+}
+
+/* Add is greyed out while the stream's title is looked up. */
+.livestream-pill:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* The stream you're watching now, in the panel's list. */
+.livestream-list-picked {
+  outline: 1px solid var(--color-accent);
+}

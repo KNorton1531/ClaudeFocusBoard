@@ -1,12 +1,13 @@
 /* The board fills the whole screen, so Apps can go anywhere.
    It sits above the welcome message, so an App can cover it.
    It is fixed in place, so the page itself never scrolls.
-   It stops above the music bar, so Apps never sit under it. */
+   It goes right down to the bottom. The music bar and menu bar float on top,
+   so Apps can sit either side of them. */
 .board {
   position: fixed;
   top: var(--board-edge);
   right: var(--board-edge);
-  bottom: calc(var(--board-edge) + var(--player-space));
+  bottom: var(--board-edge);
   left: var(--board-edge);
   z-index: 5;
 }
@@ -24,12 +25,81 @@
   pointer-events: auto;
 }
 
-/* Softer resize handle so it fits the cozy look */
-.board .react-resizable-handle {
+/* Resize handles. Every side and corner can be dragged, but only the
+   bottom-right corner shows its little arrow, to keep things tidy.
+   The sides are invisible strips along each edge of the App. */
+.board .react-grid-item > .react-resizable-handle {
+  background-image: none;
+  transform: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board .react-grid-item > .react-resizable-handle::after {
+  display: none;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-n,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-s {
+  left: 14px;
+  right: 14px;
+  width: auto;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-n {
+  top: 0;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-s {
+  bottom: 0;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-e,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-w {
+  top: 14px;
+  bottom: 14px;
+  width: 10px;
+  height: auto;
+  cursor: ew-resize;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-e {
+  right: 0;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-w {
+  left: 0;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-ne,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-nw,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-se,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-sw {
+  width: 14px;
+  height: 14px;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-ne,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-sw {
+  cursor: nesw-resize;
+}
+
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-nw,
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-se {
+  cursor: nwse-resize;
+}
+
+/* The one visible handle, softened to fit the cozy look. */
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-se::after {
+  display: block;
+  right: 4px;
+  bottom: 4px;
   opacity: 0.35;
 }
 
-.board .react-resizable-handle:hover {
+.board .react-grid-item > .react-resizable-handle.react-resizable-handle-se:hover::after {
   opacity: 0.9;
 }
 

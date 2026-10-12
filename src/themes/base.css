@@ -14,6 +14,10 @@
   --color-accent: #e8a86b;
   --color-accent-text: #2b211c;
 
+  /* The same in every theme: the red "live" dot and the box behind a video. */
+  --color-live: #e5534b;
+  --color-video: #000;
+
   --font-body: "Nunito", sans-serif;
   --font-heading: "Quicksand", sans-serif;
 
@@ -38,7 +42,16 @@
   /* Gap between the board and the edge of the screen. */
   --board-edge: 24px;
 
-  /* Height of the music bar at the bottom, and the room the board leaves for it. */
+  /* Height of the music bar at the bottom. */
   --player-height: 52px;
-  --player-space: 68px;
+
+  /* Width of the music bar. The menu bar sits just to its right. */
+  --player-width: 580px;
+}
+
+/* On narrow screens the music bar drops its volume slider, so it's thinner. */
+@media (max-width: 640px) {
+  :root {
+    --player-width: 390px;
+  }
 }

@@ -208,8 +208,10 @@ function App() {
       return app.id !== id
     })
 
-    // A sticky note saves its text under its own key, so clear that too.
+    // Sticky notes, Weather and Livestream save under their own keys, so clear those too.
     removeData('note-' + id)
+    removeData('weather-' + id)
+    removeData('livestream-' + id)
     updateApps(remaining)
   }
 
@@ -274,7 +276,6 @@ function App() {
         onClose={handleCloseMenu}
         onAddApp={handleAddApp}
         onToggleApp={handleToggleApp}
-        onRemoveApp={handleRemoveApp}
       />
     )
   } else if (openMenu === 'look') {

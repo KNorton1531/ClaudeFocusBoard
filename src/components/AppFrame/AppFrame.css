@@ -79,3 +79,44 @@
   padding-top: var(--space-s);
 }
 
+/* Compact Apps: no title bar, drag from anywhere. */
+.app-frame-compact {
+  position: relative;
+  cursor: grab;
+}
+
+.app-frame-compact:active {
+  cursor: grabbing;
+}
+
+.app-frame-compact .app-frame-body {
+  padding: var(--space-m);
+  /* Lets the App size itself against both the card's width (cqw) and height (cqh). */
+  container-type: size;
+}
+
+/* Leave room for the corner buttons above the settings form. */
+.app-frame-compact .app-frame-settings {
+  padding-top: 40px;
+}
+
+.app-frame-compact .app-frame-buttons {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--color-surface-solid);
+}
+
+.app-frame-compact button,
+.app-frame-compact input,
+.app-frame-compact select {
+  cursor: pointer;
+}
+
+.app-frame-compact input[type="text"],
+.app-frame-compact input[type="number"] {
+  cursor: text;
+}
+

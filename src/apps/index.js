@@ -7,6 +7,10 @@ import Pomodoro from './Pomodoro/Pomodoro.jsx'
 import { config as pomodoroConfig } from './Pomodoro/app.config.js'
 import Notes from './Notes/Notes.jsx'
 import { config as notesConfig } from './Notes/app.config.js'
+import Weather from './Weather/Weather.jsx'
+import { config as weatherConfig } from './Weather/app.config.js'
+import Livestream from './Livestream/Livestream.jsx'
+import { config as livestreamConfig } from './Livestream/app.config.js'
 
 // Each entry is that App's config plus the component that draws it.
 // Sizes (w and h) are in grid squares. See docs/02-tech-stack.md.
@@ -14,6 +18,8 @@ export const appList = [
   { ...clockConfig, component: Clock },
   { ...pomodoroConfig, component: Pomodoro },
   { ...notesConfig, component: Notes },
+  { ...weatherConfig, component: Weather },
+  { ...livestreamConfig, component: Livestream },
 ]
 
 export function findApp(type) {
