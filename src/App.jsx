@@ -5,25 +5,29 @@ import Welcome from './components/Welcome/Welcome.jsx'
 import Board from './components/Board/Board.jsx'
 import MenuBar from './components/MenuBar/MenuBar.jsx'
 import AppsMenu from './components/AppsMenu/AppsMenu.jsx'
-import LookMenu from './components/LookMenu/LookMenu.jsx'
+import LookWindow from './components/LookWindow/LookWindow.jsx'
 import SettingsMenu from './components/SettingsMenu/SettingsMenu.jsx'
 import AppSettingsMenu from './components/AppSettingsMenu/AppSettingsMenu.jsx'
 import LofiPlayer from './components/LofiPlayer/LofiPlayer.jsx'
 import { findApp, withDefaultSettings } from './apps/index.js'
 import { findFreeSpot } from './components/Board/grid.js'
+import SceneBackground from './backgrounds/layers/SceneBackground.jsx'
 import { findBackground } from './backgrounds/index.js'
+import { findFraming } from './backgrounds/framing.js'
 import { findEffect } from './effects/index.js'
 import { findTheme } from './themes/index.js'
 import { loadData, saveData, removeData } from './storage/storage.js'
 
 const DEFAULT_SETTINGS = {
   name: 'Kyle',
-  backgroundId: 'autumn-forest',
+  backgroundId: 'halloween-garden',
   themeId: 'warm-cafe',
   effectId: 'none',
   lofiStreamId: 'chillhop',
   lofiVolume: 50,
   lofiVideoBackground: false,
+  // How each background sits on the screen, by background id (see backgrounds/framing.js).
+  framing: {},
 }
 
 // What the board looks like the very first time.
@@ -260,7 +264,6 @@ function App() {
   }
 
   const background = findBackground(settings.backgroundId)
-  const BackgroundComponent = background.component
   const EffectComponent = findEffect(settings.effectId).component
 
   let effect = null
@@ -279,7 +282,7 @@ function App() {
       />
     )
   } else if (openMenu === 'look') {
-    menu = <LookMenu settings={settings} onClose={handleCloseMenu} onSettingsChange={updateSettings} />
+    menu = <LookWindow settings={settings} onClose={handleCloseMenu} onSettingsChange={updateSettings} />
   } else if (openMenu === 'settings') {
     menu = (
       <SettingsMenu
@@ -308,7 +311,7 @@ function App() {
 
   return (
     <>
-      <BackgroundComponent background={background} />
+      <SceneBackground background={background} framing={findFraming(settings.framing, background.id)} />
       {effect}
       <Welcome name={settings.name} />
       <MenuBar openMenu={openMenu} onOpenMenu={handleOpenMenu} />

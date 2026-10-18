@@ -16,6 +16,6 @@ Planning docs are in `docs/`. Start with `docs/00-README.md` and `docs/08-roadma
 ## How things fit together
 - `src/App.jsx` holds settings and the list of Apps on the board, and saves them.
 - Add an App: make a folder in `src/apps/`, then add one line to `src/apps/index.js`.
-- Add a background: make a folder in `src/backgrounds/` with the picture and a `background.config.js` (copy `NightFlight/`), then add one line to `src/backgrounds/index.js`. Shared scene layers (stars, clouds, glow, smoke) are in `src/backgrounds/layers/`.
+- Add a background: put the 16:9 picture in `src/backgrounds/assets/`, make a folder in `src/backgrounds/` with a `background.config.js` (copy `NightFlight/`), then add one line to `src/backgrounds/index.js`. Shared scene layers (stars, clouds, glow, smoke) are in `src/backgrounds/layers/`.
 - The lofi music bar is `src/components/LofiPlayer/`. Its streams list is `src/content/lofi-streams.js`.
 - Welcome message text lives in `src/content/welcome/`. The picking logic is `src/components/Welcome/pickWelcome.js` (see `docs/welcome/10-logic.md`).

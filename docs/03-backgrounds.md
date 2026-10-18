@@ -13,23 +13,24 @@ Layer 1: Base color        fallback while the image loads
 - **Scene animations** are part of a background. They only make sense for that scene (e.g. window lights in the city).
 - **Effects** are separate and work on any background (weather). Controlled by settings.
 
-Art will be AI-generated later. Use placeholder images while building.
+## Backgrounds (all AI art, 2026-10-18)
+| Name | Picture | Scene layers |
+|---|---|---|
+| Halloween garden (default) | `halloweenGarden.png` | Stars, moonlight, flickering pumpkins and lanterns, steam from the mug |
+| City window | `nightWindow.png` | Stars and clouds in the window, red light on the tallest tower, lamp glow |
+| Snowy cabin | `snowyCabin.png` | Stars, moonlight, chimney smoke, cabin windows, river reflection |
+| Winter campfire | `snowyCampfire.png` | Stars, moonlight, flickering fire, fire smoke, tent lamp |
+| Night flight | `nightFlight.png` | Stars and clouds in the window, frame glow, wingtip light |
 
-## v1 backgrounds
-| Name | Mood | Scene animation ideas | Status |
-|---|---|---|---|
-| Autumn forest | Warm, golden, calm | Drifting clouds, swaying branches, light rays, a few falling leaves | [v1] |
-| Night city from a bedroom | Quiet, late night | Window lights flicker on/off, blinking signs, passing car lights, moving clouds | [v1] |
-| Cabin in the snow | Cozy, winter | Chimney smoke, glowing/flickering cabin window, slow clouds | [v1] |
-| Night flight | Calm, late night, travelling | Twinkling stars, wisps drifting past the window, glowing reading light. First one with real art (`night-flight.png`) | done |
+The old CSS-drawn placeholders (Autumn forest, Night city, Cabin in the snow) were removed. A saved id that no longer exists falls back to the first background.
 
-## Folder shape (per background, decided 2026-10-12)
+## Folder shape (per background, decided 2026-10-12, pictures moved to assets/ 2026-10-18)
 A background is a 16:9 picture plus a list of scene layers. No code per background.
 ```
 backgrounds/
+  assets/                 every picture (16:9, e.g. 1672 x 941 or 1920 x 1080)
   NightFlight/
-    night-flight.png      the picture (16:9, e.g. 1920 x 1080)
-    background.config.js  id, name, picture, and its layers
+    background.config.js  id, name, picture (from assets/), and its layers
   layers/                 shared: SceneBackground draws any config
     Stars, Clouds, Glow, Smoke
 ```
@@ -37,7 +38,14 @@ backgrounds/
 - A layer can have an `area` (e.g. a window). It's then drawn only inside it, and its positions are % of that area.
 - Layer types: `stars` (twinkle), `clouds` (drift sideways), `glow` (lamps, lit windows; `flicker: true` for fire), `smoke` (chimneys, tea). Each layer's file says what it takes.
 - New layer type: make its component in `layers/`, add one line to `SceneLayer.jsx`.
-- Autumn forest, Night city and Cabin in the snow are still the old CSS-drawn placeholders. Move them over when their art is ready.
+
+## Fit to screen (added 2026-10-18)
+For screens that aren't 16:9 (e.g. a vertical 1080p monitor). In Look → Background settings, under "Fit to screen":
+- **Fill the screen** (default): covers the screen and crops the edges.
+- **Show it all**: the whole picture, with a blurred copy behind it filling the gaps.
+- **Left ↔ Right / Top ↔ Bottom** sliders: slide the picture to pick which part shows.
+
+Each picture background remembers its own framing. The video background (lofi bar ▣) has one of its own; when it's on, the controls change the video. Saved in `settings.framing`, keyed by background id or `'video'`. Logic in `src/backgrounds/framing.js` + `framing.css`, words in `src/content/background-framing.js`.
 
 ## Effects (overlays, any background)
 | Effect | Status |

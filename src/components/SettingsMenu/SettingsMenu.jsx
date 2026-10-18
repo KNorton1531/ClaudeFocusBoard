@@ -1,5 +1,5 @@
-// SettingsMenu: the "Settings" menu. Things about you and the board itself.
-import MenuPanel from '../MenuPanel/MenuPanel.jsx'
+// SettingsMenu: the "Settings" window. Things about you and the board itself.
+import Window from '../Window/Window.jsx'
 import './SettingsMenu.css'
 
 function SettingsMenu({ settings, onClose, onSettingsChange, onResetBoard }) {
@@ -8,7 +8,7 @@ function SettingsMenu({ settings, onClose, onSettingsChange, onResetBoard }) {
   }
 
   return (
-    <MenuPanel title="Settings" onClose={onClose}>
+    <Window title="Settings" onClose={onClose}>
       <div className="menu-section">
         <h3 className="menu-section-title">Your name</h3>
         <input
@@ -28,7 +28,7 @@ function SettingsMenu({ settings, onClose, onSettingsChange, onResetBoard }) {
         </button>
         <p className="menu-hint">Puts the apps back to how they started. Your notes are kept.</p>
       </div>
-    </MenuPanel>
+    </Window>
   )
 }
 

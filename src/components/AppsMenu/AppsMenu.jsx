@@ -1,7 +1,7 @@
-// AppsMenu: the "Apps" menu.
+// AppsMenu: the "Apps" window.
 // Lists every App, each with a switch to show or hide it.
 // Switching on an App that isn't on the board yet adds it.
-import MenuPanel from '../MenuPanel/MenuPanel.jsx'
+import Window from '../Window/Window.jsx'
 import { appList } from '../../apps/index.js'
 import './AppsMenu.css'
 
@@ -65,10 +65,10 @@ function AppsMenu({ apps, onClose, onAddApp, onToggleApp }) {
   }
 
   return (
-    <MenuPanel title="Apps" onClose={onClose}>
+    <Window title="Apps" onClose={onClose}>
       <div className="apps-menu-list">{rows}</div>
       <p className="menu-hint">Switching an app off hides it. Its place and settings are kept for next time.</p>
-    </MenuPanel>
+    </Window>
   )
 }
 

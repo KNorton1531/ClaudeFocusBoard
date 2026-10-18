@@ -15,7 +15,7 @@ Just me (Kyle). No accounts, no sign-up, no sharing.
 - **Theme**: colors and fonts. Can change with season or time of day.
 
 ## Core features (v1)
-1. Board with 3 swappable backgrounds (Autumn forest, Night city, Cabin in the snow), using placeholders until the AI art is ready.
+1. Board with swappable picture backgrounds (Halloween garden, City window, Snowy cabin, Winter campfire, Night flight). See 03-backgrounds.md.
 2. Add, drag, resize and remove Apps.
 3. Layout is saved, so it's the same after a refresh.
 4. Welcome message (header + sub-header, top left) based on time of day, season, holidays and special days. See welcome/.

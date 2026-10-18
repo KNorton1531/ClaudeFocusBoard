@@ -1,14 +1,9 @@
-/* The picture, cropped to fill the screen like background-size: cover.
+/* The picture. Its size and position come from framing.css.
    It keeps a 16:9 shape, so anything placed inside it with % lines up with
    the same spot in the picture. Pictures should be 16:9 (e.g. 1920 x 1080).
    "container-type" lets layers use cqw: 1cqw = 1% of the picture's width. */
 .scene-picture {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100vw, 177.78vh);
-  height: max(56.25vw, 100vh);
-  transform: translate(-50%, -50%);
+  overflow: hidden;
   background-size: 100% 100%;
   container-type: size;
 }

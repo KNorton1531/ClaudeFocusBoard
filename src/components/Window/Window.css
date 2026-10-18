@@ -1,0 +1,191 @@
+/* Dims everything behind the window. Clicking it closes the window. */
+.window-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-m);
+  background: var(--window-backdrop);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: window-fade-in 160ms ease-out;
+}
+
+@keyframes window-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The window itself. Never bigger than the screen. */
+.window {
+  display: flex;
+  flex-direction: column;
+  width: min(var(--window-width), 100%);
+  max-height: min(var(--window-height), 100%);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface-solid);
+  box-shadow: var(--shadow-panel);
+  animation: window-pop-in 180ms ease-out;
+}
+
+/* Windows without tabs only hold a short list, so they're narrower. */
+.window:not(.window-with-tabs) {
+  width: min(440px, 100%);
+}
+
+/* Windows with tabs keep the same height whichever tab is picked. */
+.window-with-tabs {
+  height: min(var(--window-height), 100%);
+}
+
+@keyframes window-pop-in {
+  from {
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.window-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-m) var(--space-l);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.window-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.window-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.window-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+}
+
+/* Tabs down the left, the picked tab's page on the right. */
+.window-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.window-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 200px;
+  flex-shrink: 0;
+  padding: var(--space-m) var(--space-s);
+  border-right: 1px solid var(--color-line);
+}
+
+.window-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: none;
+  border-radius: var(--radius-s);
+  background: none;
+  color: var(--color-text-soft);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.window-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+}
+
+.window-tab-picked {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.window-tab-icon {
+  width: 18px;
+  text-align: center;
+}
+
+.window-body {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-m) var(--space-l) var(--space-l);
+  overflow-y: auto;
+}
+
+/* Shared bits the menus use inside a window. */
+.menu-section {
+  margin-top: var(--space-l);
+}
+
+.menu-section:first-child {
+  margin-top: 0;
+}
+
+.menu-section-title {
+  margin: 0 0 var(--space-s);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-soft);
+}
+
+.menu-hint {
+  margin: var(--space-s) 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-text-soft);
+}
+
+/* Narrow screens (like a phone, or a narrow window): tabs go across the top. */
+@media (max-width: 640px) {
+  .window-main {
+    flex-direction: column;
+  }
+
+  .window-tabs {
+    flex-direction: row;
+    width: auto;
+    overflow-x: auto;
+    padding: var(--space-s);
+    border-right: none;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .window-head,
+  .window-body {
+    padding-left: var(--space-m);
+    padding-right: var(--space-m);
+  }
+}

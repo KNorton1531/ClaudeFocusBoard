@@ -1,0 +1,17 @@
+.background-settings-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  font-size: 0.85rem;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+
+.background-settings-toggle input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}

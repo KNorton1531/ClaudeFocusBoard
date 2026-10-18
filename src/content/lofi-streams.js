@@ -9,7 +9,7 @@ export const lofiStreams = [
   { id: 'lofi-girl-medieval', name: 'Medieval lofi', channel: 'Lofi Girl', videoId: 'IxPANmjPaek' },
   { id: 'lofi-girl-synthwave', name: 'Synthwave', channel: 'Lofi Girl', videoId: '4xDzrJKXOOY' },
   { id: 'lofi-girl-dark-ambient', name: 'Dark ambient', channel: 'Lofi Girl', videoId: 'S_MOd40zlYU' },
-  { id: 'lofi-hip-hop-radio', name: 'Hip Hop', channel: 'STEEZYASFUCK', videoId: 'IPg9DRpm9xQ' },
+  { id: 'lofi-hip-hop-radio', name: 'Hip Hop', channel: 'STEEZYASFUCK', videoId: 'uWzSqdcfPZw' },
   { id: 'lofi-girl-halloween', name: 'Halloween Lofi', channel: 'Lofi Girl', videoId: '1-LpQekNa9g' },
 
 ]

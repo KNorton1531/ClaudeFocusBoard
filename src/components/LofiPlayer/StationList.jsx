@@ -1,8 +1,13 @@
 // StationList: the pop-up list of streams above the music bar.
 // Picking a stream starts playing it straight away.
+// Clicking anywhere outside it closes it, except on the music bar, whose
+// buttons open and close the list themselves.
 import { thumbnailUrl } from './thumbnailUrl.js'
+import { useClickAway } from '../useClickAway.js'
 
-function StationList({ streams, selectedId, onPick }) {
+function StationList({ streams, selectedId, onPick, onClose }) {
+  const listRef = useClickAway(onClose, '.lofi-bar')
+
   const rows = streams.map(function (stream) {
     let className = 'station'
     if (stream.id === selectedId) {
@@ -26,7 +31,11 @@ function StationList({ streams, selectedId, onPick }) {
     )
   })
 
-  return <div className="station-list">{rows}</div>
+  return (
+    <div className="station-list" ref={listRef}>
+      {rows}
+    </div>
+  )
 }
 
 export default StationList

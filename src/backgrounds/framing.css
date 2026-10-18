@@ -1,0 +1,31 @@
+/* The box that holds a 16:9 background picture or video (see framing.js).
+   --frame-x and --frame-y slide it around: at 0% its left / top edge lines up
+   with the screen's, at 100% its right / bottom edge does. */
+.framed {
+  position: absolute;
+  left: var(--frame-x, 50%);
+  top: var(--frame-y, 50%);
+  transform: translate(calc(var(--frame-x, 50%) * -1), calc(var(--frame-y, 50%) * -1));
+}
+
+/* Covers the whole screen, like background-size: cover. */
+.framed-fill {
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+}
+
+/* Shows the whole picture, like background-size: contain. */
+.framed-fit {
+  width: min(100vw, 177.78vh);
+  height: min(56.25vw, 100vh);
+}
+
+/* A blurred, darker copy of the picture that fills the gaps around a
+   "fit" picture. It's drawn a bit past the screen so the blur has no edges. */
+.framed-backdrop {
+  position: absolute;
+  inset: -60px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(40px) brightness(0.55);
+}

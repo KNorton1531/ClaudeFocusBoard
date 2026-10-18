@@ -39,6 +39,11 @@
   --clock-size-large: 6rem;
   --clock-size-huge: 9rem;
 
+  /* The pop-up windows (Apps, Look, Settings). Small screens shrink them. */
+  --window-width: 760px;
+  --window-height: 540px;
+  --window-backdrop: rgba(0, 0, 0, 0.45);
+
   /* Gap between the board and the edge of the screen. */
   --board-edge: 24px;
 

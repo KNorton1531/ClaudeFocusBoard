@@ -12,6 +12,8 @@ import { loadYouTubeApi } from './loadYouTubeApi.js'
 import { fadeVolume } from './fadeVolume.js'
 import { thumbnailUrl } from './thumbnailUrl.js'
 import { lofiStreams } from '../../content/lofi-streams.js'
+import { findFraming, framingClassName, framingStyle, VIDEO_FRAMING_KEY } from '../../backgrounds/framing.js'
+import '../../backgrounds/framing.css'
 import './LofiPlayer.css'
 
 // The small line of text under the stream name, for each player state.
@@ -282,14 +284,41 @@ function LofiPlayer({ settings, onSettingsChange }) {
 
   let list = null
   if (isListOpen) {
-    list = <StationList streams={lofiStreams} selectedId={stream.id} onPick={pickStream} />
+    list = (
+      <StationList
+        streams={lofiStreams}
+        selectedId={stream.id}
+        onPick={pickStream}
+        onClose={function () {
+          setIsListOpen(false)
+        }}
+      />
+    )
+  }
+
+  // How the video sits on the screen: fill or show it all, and where (see backgrounds/framing.js).
+  // Only CSS changes here, so the stream never reloads.
+  const framing = findFraming(settings.framing, VIDEO_FRAMING_KEY)
+
+  // When the whole video is shown, a blurred copy of its picture fills the gaps around it.
+  let backdrop = null
+  if (framing.fit === 'fit') {
+    backdrop = (
+      <div
+        className="framed-backdrop"
+        style={{ backgroundImage: 'url(' + thumbnailUrl(stream.videoId, 'hqdefault') + ')' }}
+      />
+    )
   }
 
   return (
     <>
-      <div className={videoClassName}>
-        <div className="lofi-video-frame" ref={videoBoxRef} />
-        <VideoStill key={stream.videoId} videoId={stream.videoId} isShown={isStillShown} />
+      <div className={videoClassName} style={framingStyle(framing)}>
+        {backdrop}
+        <div className={'lofi-video-box ' + framingClassName(framing)}>
+          <div className="lofi-video-frame" ref={videoBoxRef} />
+          <VideoStill key={stream.videoId} videoId={stream.videoId} isShown={isStillShown} />
+        </div>
         <div className="lofi-video-shade" />
       </div>
 

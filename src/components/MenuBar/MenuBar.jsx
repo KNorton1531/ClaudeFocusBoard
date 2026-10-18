@@ -1,16 +1,10 @@
-// MenuBar: the row of buttons beside the music bar that open the menus.
-// Only one menu is open at a time.
+// MenuBar: the row of buttons beside the music bar that open the windows.
+// Only one window is open at a time. The buttons are listed in content/menu-bar.js.
+import { menuBarButtons } from '../../content/menu-bar.js'
 import './MenuBar.css'
 
-// The buttons, in the order they appear.
-const BUTTONS = [
-  { id: 'apps', name: 'Apps', icon: '▦' },
-  { id: 'look', name: 'Look', icon: '✧' },
-  { id: 'settings', name: 'Settings', icon: '⚙' },
-]
-
 function MenuBar({ openMenu, onOpenMenu }) {
-  const buttons = BUTTONS.map(function (button) {
+  const buttons = menuBarButtons.map(function (button) {
     let className = 'menu-bar-button'
     if (button.id === openMenu) {
       className = 'menu-bar-button menu-bar-button-open'
