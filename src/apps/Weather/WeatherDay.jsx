@@ -1,5 +1,6 @@
-// WeatherDay: one row in the days-ahead list, e.g. "Tue 🌧️ 14° 8°".
+// WeatherDay: one row in the days-ahead list, e.g. "Tue 🌧️ 14° 8° ↑07:32 ↓18:05".
 import { describeWeather } from './weatherApi.js'
+import SunTimes from './SunTimes.jsx'
 
 function WeatherDay({ day }) {
   const weather = describeWeather(day.code, true)
@@ -15,6 +16,7 @@ function WeatherDay({ day }) {
       </span>
       <span className="weather-day-high">{day.high}°</span>
       <span className="weather-day-low">{day.low}°</span>
+      <SunTimes day={day} />
     </li>
   )
 }

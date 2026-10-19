@@ -9,6 +9,7 @@ import LookWindow from './components/LookWindow/LookWindow.jsx'
 import SettingsMenu from './components/SettingsMenu/SettingsMenu.jsx'
 import AppSettingsMenu from './components/AppSettingsMenu/AppSettingsMenu.jsx'
 import LofiPlayer from './components/LofiPlayer/LofiPlayer.jsx'
+import SceneEditor from './components/SceneEditor/SceneEditor.jsx'
 import { findApp, withDefaultSettings } from './apps/index.js'
 import { findFreeSpot } from './components/Board/grid.js'
 import SceneBackground from './backgrounds/layers/SceneBackground.jsx'
@@ -36,13 +37,23 @@ const DEFAULT_SETTINGS = {
 function makeDefaultApps() {
   return [
     { id: 'clock-1', type: 'clock', left: 0.5, top: 0.15, hidden: false, settings: withDefaultSettings('clock') },
-    { id: 'pomodoro-1', type: 'pomodoro', x: 18, y: 2, w: 6, h: 5, hidden: false, settings: withDefaultSettings('pomodoro') },
   ]
 }
 
 // Saved Apps may come from an older version, so fill in anything missing.
 function tidyApps(saved) {
-  return saved.map(function (app) {
+  // Drop any App that's since been taken out of apps/index.js (like the old Pomodoro and Sticky note).
+  const known = saved.filter(function (app) {
+    if (findApp(app.type)) {
+      return true
+    }
+
+    // Sticky notes saved their text under their own key, so clear that too.
+    removeData('note-' + app.id)
+    return false
+  })
+
+  return known.map(function (app) {
     let hidden = false
     if (app.hidden) {
       hidden = true
@@ -212,8 +223,7 @@ function App() {
       return app.id !== id
     })
 
-    // Sticky notes, Weather and Livestream save under their own keys, so clear those too.
-    removeData('note-' + id)
+    // Weather and Livestream save under their own keys, so clear those too.
     removeData('weather-' + id)
     removeData('livestream-' + id)
     updateApps(remaining)
@@ -229,6 +239,11 @@ function App() {
     })
 
     updateApps(changed)
+  }
+
+  // Closes the Look window and opens the scene editor in its place.
+  function handleAdjustScene() {
+    setOpenMenu('scene')
   }
 
   function handleResetBoard() {
@@ -282,7 +297,22 @@ function App() {
       />
     )
   } else if (openMenu === 'look') {
-    menu = <LookWindow settings={settings} onClose={handleCloseMenu} onSettingsChange={updateSettings} />
+    menu = (
+      <LookWindow
+        settings={settings}
+        onClose={handleCloseMenu}
+        onSettingsChange={updateSettings}
+        onAdjustScene={handleAdjustScene}
+      />
+    )
+  } else if (openMenu === 'scene') {
+    menu = (
+      <SceneEditor
+        settings={settings}
+        onSettingsChange={updateSettings}
+        onClose={handleCloseMenu}
+      />
+    )
   } else if (openMenu === 'settings') {
     menu = (
       <SettingsMenu

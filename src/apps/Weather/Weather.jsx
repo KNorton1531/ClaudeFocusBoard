@@ -1,6 +1,6 @@
 // Weather: the weather for one place at a time, with arrows to flick between places.
 // "My location" comes from the browser. Other places are added with the search
-// and saved under 'weather-<appId>', the same way Notes saves each note.
+// and saved under 'weather-<appId>', so each one keeps its own.
 import { useState, useEffect } from 'react'
 import { loadData, saveData } from '../../storage/storage.js'
 import { weatherText } from '../../content/weather.js'
@@ -19,20 +19,22 @@ const REFRESH_MINUTES = 15
 // the card. If things get cut off, make these numbers a bit bigger.
 function contentSize(layout, days) {
   if (layout === 'wide') {
-    let lines = 9.5
+    let lines = 10
     if (days > 0) {
-      lines = lines + 5.5
+      lines = lines + 7.5
     }
 
     return { width: 28, lines: lines }
   }
 
-  let lines = 11
+  // 12 lines for the weather now, plus sunrise and sunset.
+  let lines = 12
   if (days > 0) {
     lines = lines + 1 + days * 1.5
   }
 
-  return { width: 14, lines: lines }
+  // Each day's sunrise and sunset makes the rows wider.
+  return { width: 19, lines: lines }
 }
 
 function Weather({ appId, settings }) {

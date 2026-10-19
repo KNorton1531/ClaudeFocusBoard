@@ -9,14 +9,16 @@ import EffectsTab from './EffectsTab.jsx'
 import { lookTabs, lookText } from '../../content/menu-bar.js'
 import './LookWindow.css'
 
-function LookWindow({ settings, onClose, onSettingsChange }) {
+function LookWindow({ settings, onClose, onSettingsChange, onAdjustScene }) {
   const [selectedTab, setSelectedTab] = useState(lookTabs[0].id)
 
   let page = null
   if (selectedTab === 'backgrounds') {
-    page = <BackgroundsTab settings={settings} onSettingsChange={onSettingsChange} />
+    page = <BackgroundsTab settings={settings} onSettingsChange={onSettingsChange} onAdjustScene={onAdjustScene} />
   } else if (selectedTab === 'background-settings') {
-    page = <BackgroundSettingsTab settings={settings} onSettingsChange={onSettingsChange} />
+    page = (
+      <BackgroundSettingsTab settings={settings} onSettingsChange={onSettingsChange} onAdjustScene={onAdjustScene} />
+    )
   } else if (selectedTab === 'styling') {
     page = <StylingTab settings={settings} onSettingsChange={onSettingsChange} />
   } else if (selectedTab === 'effects') {

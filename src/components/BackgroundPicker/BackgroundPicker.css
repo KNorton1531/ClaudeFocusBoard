@@ -1,0 +1,64 @@
+.background-picker {
+  display: grid;
+  gap: var(--space-s);
+}
+
+/* In the Look window: as many cards a row as fit. */
+.background-picker-grid {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+/* In the scene editor: one row, scroll sideways if there are lots. */
+.background-picker-strip {
+  grid-auto-flow: column;
+  grid-auto-columns: 104px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.background-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-s);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-soft);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms, border-color 150ms;
+}
+
+.background-card:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.background-card-picked {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* The backgrounds are 16:9, so the little pictures are too. */
+.background-card-picture {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: calc(var(--radius-s) - 4px);
+}
+
+.background-card-name {
+  padding: 0 4px 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The strip is small, so the names are smaller too. */
+.background-picker-strip .background-card-name {
+  font-size: 0.72rem;
+}

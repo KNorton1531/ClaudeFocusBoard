@@ -11,7 +11,7 @@ import AppFrame from '../AppFrame/AppFrame.jsx'
 import FloatingApp from '../FloatingApp/FloatingApp.jsx'
 import { findApp } from '../../apps/index.js'
 import { useElementSize } from './useElementSize.js'
-import { COLUMNS, ROWS, GAP, RESIZE_HANDLES, DRAG_CANCEL, keepInside } from './grid.js'
+import { COLUMNS, ROWS, GAP, RESIZE_HANDLES, DRAG_CANCEL, keepInside, findSizeLimits, keepInLimits } from './grid.js'
 import './Board.css'
 
 function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, onRemoveApp, onAppSettingsChange }) {
@@ -50,9 +50,11 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
   }
 
   // The grid needs x, y, w, h and an id called "i" for each App.
+  // The size is kept inside the App's limits first, then inside the board.
   const layout = gridApps.map(function (app) {
     const appInfo = findApp(app.type)
-    const spot = keepInside(app)
+    const limits = findSizeLimits(appInfo, app.settings)
+    const spot = keepInside(keepInLimits(app, limits))
 
     return {
       i: app.id,
@@ -60,10 +62,10 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
       y: spot.y,
       w: spot.w,
       h: spot.h,
-      minW: appInfo.minW,
-      minH: appInfo.minH,
-      maxW: COLUMNS,
-      maxH: ROWS,
+      minW: limits.minW,
+      minH: limits.minH,
+      maxW: limits.maxW,
+      maxH: limits.maxH,
       isBounded: true,
     }
   })

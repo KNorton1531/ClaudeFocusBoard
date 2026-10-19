@@ -1,58 +1,81 @@
-.apps-menu-list {
+/* Sits just above the music bar, in the middle of the screen. */
+.apps-menu {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--space-m) + var(--player-height) + var(--space-s));
+  z-index: 45;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--space-m));
+  padding: 6px;
+  border-radius: calc(var(--radius) + 6px);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface-solid);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow-panel);
+  transform: translateX(-50%);
+  animation: apps-menu-in 160ms ease-out;
 }
 
-.apps-menu-row {
+@keyframes apps-menu-in {
+  from {
+    opacity: 0;
+    margin-bottom: -8px;
+  }
+  to {
+    opacity: 1;
+    margin-bottom: 0;
+  }
+}
+
+/* An App that's hidden or not on the board yet. */
+.apps-menu-button {
   display: flex;
   align-items: center;
-  gap: var(--space-s);
-  padding: 6px 0;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-soft);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms, color 150ms;
 }
 
-.apps-menu-name {
-  flex: 1;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 0.92rem;
+.apps-menu-button:hover {
+  background: rgba(255, 255, 255, 0.12);
   color: var(--color-text);
 }
 
-/* A checkbox drawn as a little on/off switch. */
-.apps-menu-switch {
-  appearance: none;
-  -webkit-appearance: none;
-  position: relative;
-  flex-shrink: 0;
-  width: 36px;
-  height: 20px;
-  margin: 0;
-  border-radius: 999px;
-  border: 1px solid var(--color-line);
-  background: rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  transition: background 150ms;
-}
-
-/* The knob. */
-.apps-menu-switch::before {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--color-text-soft);
-  transition: transform 150ms, background 150ms;
-}
-
-.apps-menu-switch:checked {
+/* An App that's on the board. */
+.apps-menu-button-on {
+  border-color: transparent;
   background: var(--color-accent);
+  color: var(--color-accent-text);
+  font-weight: 600;
 }
 
-.apps-menu-switch:checked::before {
-  background: var(--color-accent-text);
-  transform: translateX(16px);
+.apps-menu-button-on:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+.apps-menu-icon {
+  width: 1em;
+  text-align: center;
+  line-height: 1;
+}
+
+/* The menu bar moves above the music bar on narrow screens, so go above that too. */
+@media (max-width: 940px) {
+  .apps-menu {
+    bottom: calc(var(--space-m) + 2 * var(--player-height) + 2 * var(--space-s));
+  }
 }

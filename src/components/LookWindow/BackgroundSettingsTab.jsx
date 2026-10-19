@@ -1,30 +1,12 @@
 // BackgroundSettingsTab: the "Background settings" tab of the Look window.
-// Turn the video background on or off, and fit the background to the screen
-// (see backgrounds/framing.js).
-import FramingControls from '../FramingControls/FramingControls.jsx'
-import { findBackground } from '../../backgrounds/index.js'
-import { findFraming, VIDEO_FRAMING_KEY } from '../../backgrounds/framing.js'
-import { framingText } from '../../content/background-framing.js'
+// Turn the video background on or off, and open the scene editor to fit the
+// background to the screen (see components/SceneEditor/).
 import { lookText } from '../../content/menu-bar.js'
+import { framingText } from '../../content/background-framing.js'
 
-function BackgroundSettingsTab({ settings, onSettingsChange }) {
+function BackgroundSettingsTab({ settings, onSettingsChange, onAdjustScene }) {
   function handleToggleVideo(event) {
     onSettingsChange({ ...settings, lofiVideoBackground: event.target.checked })
-  }
-
-  // The fit controls change the video when it's the background, otherwise the picture.
-  const background = findBackground(settings.backgroundId)
-  let framingKey = background.id
-  let framingName = background.name
-
-  if (settings.lofiVideoBackground) {
-    framingKey = VIDEO_FRAMING_KEY
-    framingName = framingText.videoName
-  }
-
-  function handleFramingChange(newFraming) {
-    const allFraming = { ...settings.framing, [framingKey]: newFraming }
-    onSettingsChange({ ...settings, framing: allFraming })
   }
 
   return (
@@ -39,11 +21,9 @@ function BackgroundSettingsTab({ settings, onSettingsChange }) {
 
       <div className="menu-section">
         <h3 className="menu-section-title">{framingText.title}</h3>
-        <FramingControls
-          name={framingName}
-          framing={findFraming(settings.framing, framingKey)}
-          onChange={handleFramingChange}
-        />
+        <button className="background-settings-adjust" onClick={onAdjustScene}>
+          ⤢ {framingText.adjust}
+        </button>
         <p className="menu-hint">{framingText.hint}</p>
       </div>
     </>

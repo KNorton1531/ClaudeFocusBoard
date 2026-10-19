@@ -5,6 +5,16 @@ import { weatherCodes, unknownWeather } from '../../content/weather.js'
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast'
 const SEARCH_URL = 'https://geocoding-api.open-meteo.com/v1/search'
 
+// Open-Meteo sends times like "2026-10-19T07:32", already in the place's own
+// time zone. This keeps just the "07:32" part.
+function timeOfDay(dateAndTime) {
+  if (!dateAndTime) {
+    return ''
+  }
+
+  return dateAndTime.slice(11, 16)
+}
+
 // Turns a weather code into its name and icon.
 export function describeWeather(code, isDay) {
   let info = weatherCodes[code]
@@ -29,7 +39,7 @@ export async function fetchForecast(latitude, longitude, units) {
     latitude: latitude,
     longitude: longitude,
     current: 'temperature_2m,apparent_temperature,weather_code,is_day,relative_humidity_2m,wind_speed_10m',
-    daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max',
+    daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset',
     temperature_unit: units,
     wind_speed_unit: 'mph',
     timezone: 'auto',
@@ -52,6 +62,8 @@ export async function fetchForecast(latitude, longitude, units) {
       low: Math.round(raw.daily.temperature_2m_min[index]),
       // Chance of rain, from 0 to 100.
       rainChance: raw.daily.precipitation_probability_max[index],
+      sunrise: timeOfDay(raw.daily.sunrise[index]),
+      sunset: timeOfDay(raw.daily.sunset[index]),
     }
   })
 

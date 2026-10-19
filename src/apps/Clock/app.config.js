@@ -2,6 +2,7 @@
 export const config = {
   type: 'clock',
   name: 'Clock',
+  icon: '◷',
   // Floats freely on the board instead of sitting in the grid.
   // It is the size of its text, and its settings open in a pop-up.
   floating: true,

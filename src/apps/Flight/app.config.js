@@ -2,6 +2,7 @@
 export const config = {
   type: 'flight',
   name: 'Flight',
+  icon: '✈',
   // No title bar: drag from anywhere, buttons show on hover. See AppFrame.jsx.
   compact: true,
   w: 7,

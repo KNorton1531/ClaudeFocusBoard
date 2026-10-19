@@ -39,13 +39,15 @@ backgrounds/
 - Layer types: `stars` (twinkle), `clouds` (drift sideways), `glow` (lamps, lit windows; `flicker: true` for fire), `smoke` (chimneys, tea). Each layer's file says what it takes.
 - New layer type: make its component in `layers/`, add one line to `SceneLayer.jsx`.
 
-## Fit to screen (added 2026-10-18)
-For screens that aren't 16:9 (e.g. a vertical 1080p monitor). In Look → Background settings, under "Fit to screen":
+## Scene editor: pick and fit (added 2026-10-18, editor 2026-10-19)
+For screens that aren't 16:9 (e.g. a vertical 1080p monitor). Press **Try on screen** (Look → Backgrounds, under the picture cards) or **Adjust scene** (Look → Background settings) to open the scene editor. The window closes and the Apps, welcome message and bars fade out (only hidden, so timers and music carry on). A toolbar sits where the music bar was:
+- **Picture strip**: flip between backgrounds live. Picking one turns the video background off.
 - **Fill the screen** (default): covers the screen and crops the edges.
 - **Show it all**: the whole picture, with a blurred copy behind it filling the gaps.
-- **Left ↔ Right / Top ↔ Bottom** sliders: slide the picture to pick which part shows.
+- **Drag anywhere** to slide the picture and pick which part shows.
+- **Centre** resets it. **Cancel** (or Escape) puts back the background and framing from when it opened. **Done** keeps it.
 
-Each picture background remembers its own framing. The video background (lofi bar ▣) has one of its own; when it's on, the controls change the video. Saved in `settings.framing`, keyed by background id or `'video'`. Logic in `src/backgrounds/framing.js` + `framing.css`, words in `src/content/background-framing.js`.
+Each picture background remembers its own framing. The video background (lofi bar ▣) has one of its own; when it's on, the controls change the video. Saved in `settings.framing`, keyed by background id or `'video'`. Logic in `src/backgrounds/framing.js` + `framing.css`, editor in `src/components/SceneEditor/`, picture cards in `src/components/BackgroundPicker/`, words in `src/content/background-framing.js`.
 
 ## Effects (overlays, any background)
 | Effect | Status |

@@ -26,7 +26,7 @@ function SettingsMenu({ settings, onClose, onSettingsChange, onResetBoard }) {
         <button className="settings-menu-reset" onClick={onResetBoard}>
           Reset the board
         </button>
-        <p className="menu-hint">Puts the apps back to how they started. Your notes are kept.</p>
+        <p className="menu-hint">Puts the apps back to how they started.</p>
       </div>
     </Window>
   )

@@ -23,3 +23,11 @@ export const lookText = {
   effectsHint:
     'Effects work on any background. The moving parts that belong to one scene, like the chimney smoke, are part of the background itself.',
 }
+
+// The row of App buttons the Apps button opens.
+export const appsText = {
+  title: 'Apps',
+  add: 'Add to the board',
+  hide: 'Hide (keeps its place and settings)',
+  show: 'Show',
+}

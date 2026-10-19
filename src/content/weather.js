@@ -1,5 +1,8 @@
 // weather.js: the words and icons used by the Weather App.
 
+// The little arrows beside the sunrise (up) and sunset (down) times.
+export const sunIcons = { sunrise: '↑', sunset: '↓' }
+
 // What each Open-Meteo weather code means.
 // Open-Meteo sends a number (a "WMO code") instead of words.
 // "icon" is used in the day, "nightIcon" at night.
@@ -60,4 +63,8 @@ export const weatherText = {
   rain: 'Rain',
   humidity: 'Humidity',
   wind: 'Wind',
+  sunrise: 'Sunrise',
+  sunset: 'Sunset',
+  // Shown when the sun doesn't rise or set that day (far north or south).
+  noSunTime: '--:--',
 }

@@ -10,6 +10,34 @@ export const GAP = 14
 // n = top, s = bottom, e = right, w = left.
 export const RESIZE_HANDLES = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw']
 
+// The smallest and biggest an App can be, in grid squares.
+// An app.config.js can set minW, minH, maxW and maxH. If the right size
+// depends on its settings (like Weather's Tall and Wide layouts), it can
+// have a sizeLimits(settings) function instead, which wins.
+export function findSizeLimits(appInfo, settings) {
+  let limits = { minW: 1, minH: 1, maxW: COLUMNS, maxH: ROWS }
+
+  if (appInfo.sizeLimits) {
+    limits = { ...limits, ...appInfo.sizeLimits(settings) }
+  } else {
+    for (const key of ['minW', 'minH', 'maxW', 'maxH']) {
+      if (appInfo[key]) {
+        limits[key] = appInfo[key]
+      }
+    }
+  }
+
+  return limits
+}
+
+// Brings a size into the limits, e.g. after an App's layout is changed.
+export function keepInLimits(app, limits) {
+  const w = Math.min(Math.max(app.w, limits.minW), limits.maxW)
+  const h = Math.min(Math.max(app.h, limits.minH), limits.maxH)
+
+  return { ...app, w: w, h: h }
+}
+
 // Pressing on any of these never starts a drag, so they still work as normal.
 export const DRAG_CANCEL = 'button, input, textarea, select, a'
 

@@ -15,3 +15,19 @@
   accent-color: var(--color-accent);
   cursor: pointer;
 }
+
+.background-settings-adjust {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.background-try-on-screen {
+  margin-top: var(--space-m);
+}

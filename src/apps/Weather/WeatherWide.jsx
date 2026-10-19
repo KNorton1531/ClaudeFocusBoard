@@ -4,6 +4,7 @@
 import { weatherText } from '../../content/weather.js'
 import { describeWeather } from './weatherApi.js'
 import WeatherDay from './WeatherDay.jsx'
+import SunTimes from './SunTimes.jsx'
 
 function WeatherWide({ forecast, days }) {
   const now = describeWeather(forecast.code, forecast.isDay)
@@ -47,6 +48,9 @@ function WeatherWide({ forecast, days }) {
           <div className="weather-description">{now.name}</div>
           <div className="weather-details">
             {weatherText.feelsLike} {forecast.feelsLike}° · H {today.high}° L {today.low}°
+          </div>
+          <div className="weather-details">
+            <SunTimes day={today} />
           </div>
         </div>
       </div>

@@ -3,10 +3,6 @@
 // import both here, and add one line to the list.
 import Clock from './Clock/Clock.jsx'
 import { config as clockConfig } from './Clock/app.config.js'
-import Pomodoro from './Pomodoro/Pomodoro.jsx'
-import { config as pomodoroConfig } from './Pomodoro/app.config.js'
-import Notes from './Notes/Notes.jsx'
-import { config as notesConfig } from './Notes/app.config.js'
 import Weather from './Weather/Weather.jsx'
 import { config as weatherConfig } from './Weather/app.config.js'
 import Livestream from './Livestream/Livestream.jsx'
@@ -18,8 +14,6 @@ import { config as flightConfig } from './Flight/app.config.js'
 // Sizes (w and h) are in grid squares. See docs/02-tech-stack.md.
 export const appList = [
   { ...clockConfig, component: Clock },
-  { ...pomodoroConfig, component: Pomodoro },
-  { ...notesConfig, component: Notes },
   { ...weatherConfig, component: Weather },
   { ...livestreamConfig, component: Livestream },
   { ...flightConfig, component: Flight },

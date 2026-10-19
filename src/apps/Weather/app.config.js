@@ -4,17 +4,26 @@
 export const config = {
   type: 'weather',
   name: 'Weather',
+  icon: '☁',
   // No title bar: drag from anywhere, buttons show on hover. See AppFrame.jsx.
   compact: true,
   w: 6,
   h: 8,
-  minW: 4,
-  minH: 5,
+  // How small and big it can be dragged, in grid squares. The text grows to
+  // fill the card, so a card that's a very different shape from its layout
+  // leaves big gaps. Tall is narrow, Wide is wide and short.
+  sizeLimits: function (settings) {
+    if (settings.layout === 'wide') {
+      return { minW: 9, minH: 5, maxW: 14, maxH: 8 }
+    } else {
+      return { minW: 4, minH: 6, maxW: 8, maxH: 11 }
+    }
+  },
   defaultSettings: {
     layout: 'tall',
     useMyLocation: true,
     units: 'celsius',
-    days: '3',
+    days: '7',
     switchEvery: '0',
   },
   settingsFields: [

@@ -1,6 +1,6 @@
 // Livestream: plays a YouTube livestream, with its own media bar.
 // It starts empty. You paste links in with the ☰ button, and they're saved
-// under 'livestream-<appId>', the same way Notes saves each note.
+// under 'livestream-<appId>', so each one keeps its own.
 //
 // youtubePlayer.js gives back simple controls for the player
 // (play, pause, setVolume, setMuted, destroy).

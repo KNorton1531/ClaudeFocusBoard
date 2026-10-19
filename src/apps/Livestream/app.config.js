@@ -4,6 +4,7 @@
 export const config = {
   type: 'livestream',
   name: 'Livestream',
+  icon: '▶',
   w: 8,
   h: 7,
   minW: 5,

@@ -50,6 +50,8 @@ Trimmed list, decided 2026-09-28.
 - Refreshes every 15 minutes.
 - `compact: true`: no title bar, drag from anywhere, frame buttons show in the top right on hover. The + sits top left so they never cover it.
 - Fills the card as you resize it. The text size comes from the card's size (CSS container units), and the days spread out to use the space. `contentSize()` in `Weather.jsx` says roughly how big the content is in em; raise those numbers if anything gets cut off.
+- Resize limits depend on the layout (`sizeLimits` in its `app.config.js`): Tall 4-8 wide by 6-11 high, Wide 9-14 by 5-8. Switching layout snaps the card into the new limits.
+- Each day shows its sunrise and sunset (🌅 / 🌇), and so does today, from Open-Meteo's `sunrise` and `sunset`, in the place's own time. Days ahead defaults to 7.
 
 ### Flight (decided 2026-10-19)
 - Lives in `src/apps/Flight/`. Words are in `src/content/flight.js`.
@@ -75,6 +77,8 @@ Trimmed list, decided 2026-09-28.
 ## Board-wide
 - Every grid App resizes from any side or corner (`RESIZE_HANDLES` in `src/components/Board/grid.js`). Only the bottom-right corner shows its arrow.
 - Any App can drop its title bar by adding `compact: true` to its `app.config.js`.
+- Resize limits: `minW`, `minH`, `maxW`, `maxH` in `app.config.js` (grid squares), or a `sizeLimits(settings)` function when they depend on settings. See `findSizeLimits` in `src/components/Board/grid.js`.
+- The Apps button opens a row of App buttons just above the music bar (`src/components/AppsMenu/`), with no window or dimmed backdrop. A lit button is on the board. Press it to hide the App (its place and settings are kept), or to add it if it isn't on the board yet. Each button shows the `icon` from that App's `app.config.js`, so a new App needs one.
 
 ### Clock settings
 - Floats freely on the board (`floating: true` in `app.config.js`). It is the size of its text, has no resize handle, and drags from anywhere
@@ -85,14 +89,8 @@ Trimmed list, decided 2026-09-28.
 - Show date: on / off, format (e.g. "Mon 28 Sep" or "28/09/2026")
 - Extra clocks: add / remove cities, each with a label
 
-## Focus
-| App | What it does | Difficulty | Status |
-|---|---|---|---|
-| Pomodoro timer | 25/5 focus timer with soft chime | Easy | [v1] |
-| Sticky notes | Free text notes | Easy/Med | [v1] |
-
 ## Removed
-Personal playlists (use Spotify instead), Calendar, World clocks (merged into Clock), To-do list, Daily goal, Habit tracker, Quote of the day, Desk pet, Breathing guide, Photo frame.
+Pomodoro timer and Sticky notes (taken out 2026-10-19), Personal playlists (use Spotify instead), Calendar, World clocks (merged into Clock), To-do list, Daily goal, Habit tracker, Quote of the day, Desk pet, Breathing guide, Photo frame.
 
 ## Every App has
 - A name and icon
