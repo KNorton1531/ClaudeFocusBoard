@@ -143,6 +143,8 @@
   top: 50%;
   left: 0;
   height: 0;
+  /* Pulls the 2px line up by half its thickness, so its middle is at 50%. */
+  transform: translateY(-50%);
 }
 
 .flight-path-line {
@@ -158,10 +160,10 @@
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: var(--flight-colour);
-  font-size: 1.4em;
-  line-height: 1;
-  text-shadow: var(--shadow-text);
+  width: 1.4em;
+  height: 1.4em;
+  fill: var(--flight-colour);
+  filter: drop-shadow(var(--shadow-text));
   /* Glides to its new spot after each refresh, instead of jumping. */
   transition: left 1.5s ease;
 }
