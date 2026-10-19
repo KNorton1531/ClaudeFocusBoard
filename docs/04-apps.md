@@ -61,8 +61,8 @@ Trimmed list, decided 2026-09-28.
 - Routes and plane types: adsbdb.com (free, no key, works from the browser). Its airline names are sometimes wrong (it calls Air Canada Rouge's ROU a Chilean airline).
 - Logos: github.com/Jxck-S/airline-logos (FlightAware's logos, then RadarBox's for the ones it's missing, by ICAO code like `BAW`), loaded from GitHub, not copied in. They belong to the airlines. The pass is tinted with the logo's main colour (`airlineLook.js`), or the theme accent if it has none. No logo means no tile.
 - "Commercial only": an airline-style callsign (3 letters then a number), airliner-sized if the feed knows the size, in the air and faster than 60 knots, and a route adsbdb knows. Private jet operators that slip through go in `notAirlines` in `src/content/flight.js`.
-- Refreshes every 30 seconds. Only the 8 nearest planes get a route lookup, and each callsign is only looked up once.
-- Nothing is saved. Settings: miles or kilometres, look within 15 / 30 / 60 miles.
+- Refreshes every 2 minutes, and not at all while the tab is hidden (changed 2026-10-19: Deno Deploy bills "Memory Time", how long the feed is kept awake, and 30 seconds used up the free allowance in a day). Only the 8 nearest planes get a route lookup, and each callsign is only looked up once.
+- The last planes are saved in the browser (`savedPlanes.js`) so a reload, coming back to the tab, or a second tab reuses them instead of asking the feed. Nothing else is saved. Settings: miles or kilometres, look within 15 / 30 / 60 miles.
 - `compact: true`, and its text grows with the card like Weather.
 
 #### Setting up the feed (once)

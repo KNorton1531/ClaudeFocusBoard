@@ -6,11 +6,18 @@ import { useState, useEffect, useRef } from 'react'
 import { flightText } from '../../content/flight.js'
 import { getMyLocation } from '../../components/getMyLocation.js'
 import { isFeedSetUp, fetchNearbyPlanes, fetchRoute } from './flightApi.js'
+import { loadSavedPlanes, savePlanes } from './savedPlanes.js'
 import BoardingPass from './BoardingPass.jsx'
 import FlightMessage from './FlightMessage.jsx'
 import './Flight.css'
 
-const REFRESH_SECONDS = 30
+// Each ask keeps the flight feed (on Deno Deploy) awake, and the free plan
+// only allows so much awake time. So don't ask too often.
+const REFRESH_SECONDS = 120
+
+// Saved planes younger than this are used instead of asking the feed.
+// A little under REFRESH_SECONDS, so the regular refresh still asks.
+const SAVED_PLANES_SECONDS = REFRESH_SECONDS - 10
 
 // How many of the nearest planes to look up routes for. Keeps the number
 // of requests small, while still giving a few flights to flick through.
@@ -55,7 +62,7 @@ function Flight({ settings }) {
     }
   }, [])
 
-  // Get the planes nearby, then again every few seconds.
+  // Get the planes nearby, then again every couple of minutes.
   useEffect(
     function () {
       if (here.status !== 'ready') {
@@ -69,8 +76,23 @@ function Flight({ settings }) {
       let isCurrent = true
 
       function load() {
+        // Don't ask while the tab is hidden. Nobody is looking at it.
+        if (document.hidden) {
+          return
+        }
+
+        // Planes saved a moment ago (by a reload or another tab)? Use those.
+        const saved = loadSavedPlanes(here.latitude, here.longitude, radiusMiles, SAVED_PLANES_SECONDS)
+
+        if (saved) {
+          setNearby({ status: 'ready', planes: saved })
+          return
+        }
+
         fetchNearbyPlanes(here.latitude, here.longitude, radiusMiles)
           .then(function (planes) {
+            savePlanes(here.latitude, here.longitude, radiusMiles, planes)
+
             if (isCurrent) {
               setNearby({ status: 'ready', planes: planes })
             }
@@ -94,9 +116,13 @@ function Flight({ settings }) {
       load()
       const interval = setInterval(load, REFRESH_SECONDS * 1000)
 
+      // Coming back to the tab? Get fresh planes straight away.
+      document.addEventListener('visibilitychange', load)
+
       return function () {
         isCurrent = false
         clearInterval(interval)
+        document.removeEventListener('visibilitychange', load)
       }
     },
     [here, radiusMiles],
