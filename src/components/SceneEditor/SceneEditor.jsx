@@ -1,21 +1,26 @@
-// SceneEditor: pick and move the background while looking at it.
-// Opened from the Look window ("Try on screen" or "Adjust scene").
-// The Apps, welcome message and bars fade away, so only the scene is left.
-// The toolbar at the bottom picks the background and fill or fit.
-// Drag anywhere to slide the picture.
+// SceneEditor: change how the board looks while looking at it.
+// Opened by the "Look" button in the menu bar.
+// The Apps and bars fade away, so only the scene and the welcome message are left.
+// The toolbar at the bottom has a tab each for background, colours, font and effects.
+// On the Background tab, drag anywhere to slide the picture.
 // Changes show straight away. Cancel (or Escape) puts back how it was.
 // What a framing is: see backgrounds/framing.js.
 import { useEffect, useRef, useState } from 'react'
-import ChoiceList from '../ChoiceList/ChoiceList.jsx'
-import BackgroundPicker from '../BackgroundPicker/BackgroundPicker.jsx'
+import BackgroundTab from './BackgroundTab.jsx'
+import ColoursTab from './ColoursTab.jsx'
+import FontTab from './FontTab.jsx'
+import EffectsTab from './EffectsTab.jsx'
 import { findBackground } from '../../backgrounds/index.js'
-import { DEFAULT_FRAMING, VIDEO_FRAMING_KEY, findFraming, dragFraming } from '../../backgrounds/framing.js'
-import { fitOptions, framingText } from '../../content/background-framing.js'
+import { VIDEO_FRAMING_KEY, findFraming, dragFraming } from '../../backgrounds/framing.js'
+import { framingText } from '../../content/background-framing.js'
+import { lookTabs, lookText } from '../../content/menu-bar.js'
 import './SceneEditor.css'
 
 function SceneEditor({ settings, onSettingsChange, onClose }) {
   // How it was when the editor opened, for Cancel.
   const [startingSettings] = useState(settings)
+
+  const [selectedTab, setSelectedTab] = useState(lookTabs[0].id)
 
   // Where the drag started, or null when not dragging.
   const dragRef = useRef(null)
@@ -53,6 +58,9 @@ function SceneEditor({ settings, onSettingsChange, onClose }) {
       backgroundId: startingSettings.backgroundId,
       lofiVideoBackground: startingSettings.lofiVideoBackground,
       framing: startingSettings.framing,
+      themeId: startingSettings.themeId,
+      fontId: startingSettings.fontId,
+      effectId: startingSettings.effectId,
     })
     onClose()
   }
@@ -72,11 +80,6 @@ function SceneEditor({ settings, onSettingsChange, onClose }) {
       document.removeEventListener('keydown', handleKeyDown)
     }
   })
-
-  // Picking a picture means you want to see it, so the video background turns off.
-  function handlePickBackground(id) {
-    onSettingsChange({ ...settings, backgroundId: id, lofiVideoBackground: false })
-  }
 
   function handlePointerDown(event) {
     // Keeps getting the moves even if the pointer leaves the window.
@@ -101,27 +104,15 @@ function SceneEditor({ settings, onSettingsChange, onClose }) {
     setIsDragging(false)
   }
 
-  function handlePickFit(id) {
-    changeFraming({ ...framing, fit: id })
-  }
+  // Only the Background tab can drag the picture.
+  let surface = null
+  if (selectedTab === 'background') {
+    let surfaceClassName = 'scene-editor-surface'
+    if (isDragging) {
+      surfaceClassName = 'scene-editor-surface scene-editor-surface-dragging'
+    }
 
-  function handleCentre() {
-    changeFraming(DEFAULT_FRAMING)
-  }
-
-  let surfaceClassName = 'scene-editor-surface'
-  if (isDragging) {
-    surfaceClassName = 'scene-editor-surface scene-editor-surface-dragging'
-  }
-
-  // With the video on, no picture is the background, so none is picked.
-  let pickedBackgroundId = background.id
-  if (settings.lofiVideoBackground) {
-    pickedBackgroundId = ''
-  }
-
-  return (
-    <>
+    surface = (
       <div
         className={surfaceClassName}
         onPointerDown={handlePointerDown}
@@ -129,28 +120,64 @@ function SceneEditor({ settings, onSettingsChange, onClose }) {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       />
+    )
+  }
 
-      <div className="scene-editor-bar" role="dialog" aria-label={framingText.title}>
-        <BackgroundPicker selectedId={pickedBackgroundId} onPick={handlePickBackground} layout="strip" />
+  let page = null
+  if (selectedTab === 'background') {
+    page = (
+      <BackgroundTab
+        settings={settings}
+        onSettingsChange={onSettingsChange}
+        framing={framing}
+        framingName={framingName}
+        onChangeFraming={changeFraming}
+      />
+    )
+  } else if (selectedTab === 'colours') {
+    page = <ColoursTab settings={settings} onSettingsChange={onSettingsChange} />
+  } else if (selectedTab === 'font') {
+    page = <FontTab settings={settings} onSettingsChange={onSettingsChange} />
+  } else if (selectedTab === 'effects') {
+    page = <EffectsTab settings={settings} onSettingsChange={onSettingsChange} />
+  }
 
-        <p className="scene-editor-hint">
-          {framingText.editing} <strong>{framingName}</strong>. {framingText.dragHint}
-        </p>
+  const tabButtons = lookTabs.map(function (tab) {
+    let className = 'scene-editor-tab'
+    if (tab.id === selectedTab) {
+      className = 'scene-editor-tab scene-editor-tab-picked'
+    }
 
-        <div className="scene-editor-controls">
-          <ChoiceList options={fitOptions} selectedId={framing.fit} onPick={handlePickFit} />
+    return (
+      <button
+        key={tab.id}
+        className={className}
+        onClick={function () {
+          setSelectedTab(tab.id)
+        }}
+      >
+        <span className="scene-editor-tab-icon">{tab.icon}</span>
+        {tab.name}
+      </button>
+    )
+  })
 
-          <div className="scene-editor-buttons">
-            <button className="scene-editor-button" onClick={handleCentre}>
-              {framingText.centre}
-            </button>
-            <button className="scene-editor-button" onClick={handleCancel}>
-              {framingText.cancel}
-            </button>
-            <button className="scene-editor-button scene-editor-done" onClick={onClose}>
-              {framingText.done}
-            </button>
-          </div>
+  return (
+    <>
+      {surface}
+
+      <div className="scene-editor-bar" role="dialog" aria-label={lookText.title}>
+        <div className="scene-editor-tabs">{tabButtons}</div>
+
+        <div className="scene-editor-page">{page}</div>
+
+        <div className="scene-editor-buttons">
+          <button className="scene-editor-button" onClick={handleCancel}>
+            {framingText.cancel}
+          </button>
+          <button className="scene-editor-button scene-editor-done" onClick={onClose}>
+            {framingText.done}
+          </button>
         </div>
       </div>
     </>

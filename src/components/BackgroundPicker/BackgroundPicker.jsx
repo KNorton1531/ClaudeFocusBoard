@@ -1,11 +1,9 @@
 // BackgroundPicker: every background as a little picture you can click.
-// Used in the Look window's Backgrounds tab (as a grid) and in the scene
-// editor (as one row you can scroll).
-// "layout" is 'grid' or 'strip'.
+// One row you can scroll, in the scene editor.
 import { backgroundList } from '../../backgrounds/index.js'
 import './BackgroundPicker.css'
 
-function BackgroundPicker({ selectedId, onPick, layout }) {
+function BackgroundPicker({ selectedId, onPick }) {
   const cards = backgroundList.map(function (background) {
     let className = 'background-card'
     if (background.id === selectedId) {
@@ -27,7 +25,7 @@ function BackgroundPicker({ selectedId, onPick, layout }) {
     )
   })
 
-  return <div className={'background-picker background-picker-' + layout}>{cards}</div>
+  return <div className="background-picker">{cards}</div>
 }
 
 export default BackgroundPicker

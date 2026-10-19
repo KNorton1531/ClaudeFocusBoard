@@ -30,3 +30,16 @@ A theme is just a set of CSS variables (colors, fonts, blur, radius). Swapping t
 
 ## Overrides (decided)
 Time of day, season and theme each have a setting: **Auto**, **Manual** (pick any value, e.g. winter in summer) or **Off**. The welcome message ignores these and always uses the real date and time.
+
+## Fonts
+Picked separately from the theme, in the scene editor's Font tab (Look button). Each choice swaps `--font-body` and `--font-heading`.
+
+| Font | Body / heading |
+|---|---|
+| Soft & Round (default) | Nunito / Quicksand |
+| Storybook | Lora / Fraunces |
+| Handwritten | Patrick Hand / Caveat |
+| Typewriter | Courier Prime |
+| Clean | DM Sans |
+
+To add one: a `[data-font]` block in `src/themes/fonts.css`, the font in the Google Fonts link at the top of `src/index.css`, and one line in `src/themes/fonts.js`.

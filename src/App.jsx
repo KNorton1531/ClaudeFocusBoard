@@ -5,7 +5,6 @@ import Welcome from './components/Welcome/Welcome.jsx'
 import Board from './components/Board/Board.jsx'
 import MenuBar from './components/MenuBar/MenuBar.jsx'
 import AppsMenu from './components/AppsMenu/AppsMenu.jsx'
-import LookWindow from './components/LookWindow/LookWindow.jsx'
 import SettingsMenu from './components/SettingsMenu/SettingsMenu.jsx'
 import AppSettingsMenu from './components/AppSettingsMenu/AppSettingsMenu.jsx'
 import LofiPlayer from './components/LofiPlayer/LofiPlayer.jsx'
@@ -17,12 +16,14 @@ import { findBackground } from './backgrounds/index.js'
 import { findFraming } from './backgrounds/framing.js'
 import { findEffect } from './effects/index.js'
 import { findTheme } from './themes/index.js'
+import { findFont } from './themes/fonts.js'
 import { loadData, saveData, removeData } from './storage/storage.js'
 
 const DEFAULT_SETTINGS = {
   name: 'Kyle',
   backgroundId: 'halloween-garden',
   themeId: 'warm-cafe',
+  fontId: 'soft-round',
   effectId: 'none',
   lofiStreamId: 'chillhop',
   lofiVolume: 50,
@@ -109,6 +110,14 @@ function App() {
       document.documentElement.dataset.theme = findTheme(settings.themeId).id
     },
     [settings.themeId],
+  )
+
+  // Fonts work the same way, with their own attribute (see themes/fonts.css).
+  useEffect(
+    function () {
+      document.documentElement.dataset.font = findFont(settings.fontId).id
+    },
+    [settings.fontId],
   )
 
   function updateSettings(newSettings) {
@@ -241,11 +250,6 @@ function App() {
     updateApps(changed)
   }
 
-  // Closes the Look window and opens the scene editor in its place.
-  function handleAdjustScene() {
-    setOpenMenu('scene')
-  }
-
   function handleResetBoard() {
     updateApps(makeDefaultApps())
   }
@@ -296,15 +300,6 @@ function App() {
         onToggleApp={handleToggleApp}
       />
     )
-  } else if (openMenu === 'look') {
-    menu = (
-      <LookWindow
-        settings={settings}
-        onClose={handleCloseMenu}
-        onSettingsChange={updateSettings}
-        onAdjustScene={handleAdjustScene}
-      />
-    )
   } else if (openMenu === 'scene') {
     menu = (
       <SceneEditor
@@ -346,7 +341,7 @@ function App() {
       <Welcome name={settings.name} />
       <MenuBar openMenu={openMenu} onOpenMenu={handleOpenMenu} />
       {menu}
-      <LofiPlayer settings={settings} onSettingsChange={updateSettings} />
+      <LofiPlayer settings={settings} onSettingsChange={updateSettings} isEditingScene={openMenu === 'scene'} />
       <Board
         apps={apps}
         onLayoutChange={handleLayoutChange}

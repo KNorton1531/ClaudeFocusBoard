@@ -1,8 +1,8 @@
-/* While the scene is being adjusted, everything but the background fades out.
+/* While the scene is being changed, the Apps and bars fade out.
+   The welcome message stays, so you can see the font and colours on it.
    They're only hidden, so timers keep ticking and the music keeps playing. */
 .scene-editing .board,
 .scene-editing .floating-layer,
-.scene-editing .welcome,
 .scene-editing .lofi-player,
 .scene-editing .menu-bar {
   opacity: 0;
@@ -42,6 +42,71 @@
   animation: window-pop-in 180ms ease-out;
 }
 
+/* The row of tabs at the top of the toolbar. */
+.scene-editor-tabs {
+  display: flex;
+  gap: 2px;
+  padding-bottom: var(--space-s);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.scene-editor-tab {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 8px;
+  border: none;
+  border-radius: var(--radius-s);
+  background: none;
+  color: var(--color-text-soft);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.scene-editor-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+}
+
+.scene-editor-tab-picked {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.scene-editor-tab-icon {
+  font-size: 0.8rem;
+}
+
+/* The picked tab's page. */
+.scene-editor-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.scene-editor-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  font-size: 0.82rem;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+
+.scene-editor-toggle input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
 .scene-editor-hint {
   margin: 0;
   font-size: 0.82rem;
@@ -60,9 +125,24 @@
   gap: var(--space-s);
 }
 
+/* Cancel and Done, bottom right, the same on every tab. */
 .scene-editor-buttons {
   display: flex;
+  justify-content: flex-end;
   gap: var(--space-s);
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--color-line);
+}
+
+/* Small phones: icons only on the tabs. */
+@media (max-width: 480px) {
+  .scene-editor-tab {
+    font-size: 0;
+  }
+
+  .scene-editor-tab-icon {
+    font-size: 0.95rem;
+  }
 }
 
 .scene-editor-button {

@@ -1,5 +1,6 @@
 // ChoiceList: a row of buttons where exactly one is picked.
-// Used for backgrounds, themes and effects.
+// Used for backgrounds, themes, fonts and effects.
+// An option with a "fontId" shows its button in that font (see themes/fonts.css).
 import './ChoiceList.css'
 
 function ChoiceList({ options, selectedId, onPick }) {
@@ -13,6 +14,7 @@ function ChoiceList({ options, selectedId, onPick }) {
       <button
         key={option.id}
         className={className}
+        data-font={option.fontId}
         onClick={function () {
           onPick(option.id)
         }}

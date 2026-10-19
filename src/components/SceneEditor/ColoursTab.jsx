@@ -1,19 +1,19 @@
-// StylingTab: the "Styling" tab of the Look window. Pick the theme colours.
+// ColoursTab: the "Colours" tab of the scene editor. Pick the theme.
 import ChoiceList from '../ChoiceList/ChoiceList.jsx'
 import { themeList } from '../../themes/index.js'
 import { lookText } from '../../content/menu-bar.js'
 
-function StylingTab({ settings, onSettingsChange }) {
+function ColoursTab({ settings, onSettingsChange }) {
   function handlePickTheme(id) {
     onSettingsChange({ ...settings, themeId: id })
   }
 
   return (
-    <div className="menu-section">
-      <h3 className="menu-section-title">{lookText.themeTitle}</h3>
+    <>
       <ChoiceList options={themeList} selectedId={settings.themeId} onPick={handlePickTheme} />
-    </div>
+      <p className="scene-editor-hint">{lookText.coloursHint}</p>
+    </>
   )
 }
 
-export default StylingTab
+export default ColoursTab

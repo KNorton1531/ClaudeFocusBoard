@@ -1,5 +1,5 @@
 // Window: a big pop-up window in the middle of the screen, over a dimmed backdrop.
-// Every menu (Apps, Look, Settings) is drawn inside one.
+// Every menu (Apps, Settings) is drawn inside one.
 // Clicking the backdrop, pressing Escape or pressing ✕ closes it.
 //
 // Tabs are optional. Pass a list like [{ id: 'styling', name: 'Styling', icon: '◐' }]

@@ -1,0 +1,31 @@
+/* Font pairs. Each one swaps the body and heading fonts.
+   They work on <html> (the whole board) and on any single element,
+   which is how the font picker shows each button in its own font. */
+[data-font="soft-round"] {
+  --font-body: "Nunito", sans-serif;
+  --font-heading: "Quicksand", sans-serif;
+}
+
+/* Storybook: soft serifs, like an old book. */
+[data-font="storybook"] {
+  --font-body: "Lora", serif;
+  --font-heading: "Fraunces", serif;
+}
+
+/* Handwritten: like notes in a journal. */
+[data-font="handwritten"] {
+  --font-body: "Patrick Hand", cursive;
+  --font-heading: "Caveat", cursive;
+}
+
+/* Typewriter: one font for everything. */
+[data-font="typewriter"] {
+  --font-body: "Courier Prime", monospace;
+  --font-heading: "Courier Prime", monospace;
+}
+
+/* Clean: plain and modern. */
+[data-font="clean"] {
+  --font-body: "DM Sans", sans-serif;
+  --font-heading: "DM Sans", sans-serif;
+}

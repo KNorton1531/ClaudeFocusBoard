@@ -1,4 +1,4 @@
-// EffectsTab: the "Effects" tab of the Look window. Pick the weather effect, like rain or snow.
+// EffectsTab: the "Effects" tab of the scene editor. Pick the weather effect, like rain or snow.
 import ChoiceList from '../ChoiceList/ChoiceList.jsx'
 import { effectList } from '../../effects/index.js'
 import { lookText } from '../../content/menu-bar.js'
@@ -11,7 +11,7 @@ function EffectsTab({ settings, onSettingsChange }) {
   return (
     <>
       <ChoiceList options={effectList} selectedId={settings.effectId} onPick={handlePickEffect} />
-      <p className="menu-hint">{lookText.effectsHint}</p>
+      <p className="scene-editor-hint">{lookText.effectsHint}</p>
     </>
   )
 }

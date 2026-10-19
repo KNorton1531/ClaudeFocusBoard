@@ -3,8 +3,8 @@
 // volume and a list of streams. The list lives in content/lofi-streams.js.
 //
 // The stream's video is always on the page, just see-through. Turning on
-// "video background" fades it in behind the Apps. Fading instead of moving it
-// means the stream never has to reload.
+// "video background" fades it in behind the Apps while the music plays.
+// Fading instead of moving it means the stream never has to reload.
 import { useState, useEffect, useRef } from 'react'
 import StationList from './StationList.jsx'
 import VideoStill from './VideoStill.jsx'
@@ -50,7 +50,7 @@ function findStream(id) {
   return lofiStreams[0]
 }
 
-function LofiPlayer({ settings, onSettingsChange }) {
+function LofiPlayer({ settings, onSettingsChange, isEditingScene }) {
   // One of the keys in STATUS_TEXT.
   const [playerState, setPlayerState] = useState('loading')
 
@@ -247,10 +247,22 @@ function LofiPlayer({ settings, onSettingsChange }) {
     }
   }
 
+  // The video only covers the background picture while the music is on.
+  // Pausing fades it out, so the picture shows again.
+  // The scene editor keeps it shown, so there's something to drag into place.
+  let isVideoWanted = false
+  if (isMusicOn()) {
+    isVideoWanted = true
+  } else if (isEditingScene) {
+    isVideoWanted = true
+  }
+
   let videoClassName = 'lofi-video'
   if (settings.lofiVideoBackground) {
-    if (playerState !== 'error') {
-      videoClassName = 'lofi-video lofi-video-shown'
+    if (isVideoWanted) {
+      if (playerState !== 'error') {
+        videoClassName = 'lofi-video lofi-video-shown'
+      }
     }
   }
 

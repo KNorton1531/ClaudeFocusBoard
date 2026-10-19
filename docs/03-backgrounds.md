@@ -39,13 +39,21 @@ backgrounds/
 - Layer types: `stars` (twinkle), `clouds` (drift sideways), `glow` (lamps, lit windows; `flicker: true` for fire), `smoke` (chimneys, tea). Each layer's file says what it takes.
 - New layer type: make its component in `layers/`, add one line to `SceneLayer.jsx`.
 
-## Scene editor: pick and fit (added 2026-10-18, editor 2026-10-19)
-For screens that aren't 16:9 (e.g. a vertical 1080p monitor). Press **Try on screen** (Look → Backgrounds, under the picture cards) or **Adjust scene** (Look → Background settings) to open the scene editor. The window closes and the Apps, welcome message and bars fade out (only hidden, so timers and music carry on). A toolbar sits where the music bar was:
+## Scene editor (added 2026-10-18, all Look settings 2026-10-19)
+There's no Look window. The **Look** button in the menu bar opens the scene editor: the Apps, music bar and menu bar fade out (only hidden, so timers and music carry on), the welcome message stays so you can see fonts and colours on it, and a toolbar sits where the music bar was. Its tabs:
+- **Background**: pick and fit (below), plus the video background toggle.
+- **Colours**: the theme.
+- **Font**: the font pair (see `05-themes.md`).
+- **Effects**: rain, snow, etc.
+
+**Cancel** (or Escape) puts back everything from when it opened. **Done** keeps it.
+
+Background tab, for screens that aren't 16:9 (e.g. a vertical 1080p monitor):
 - **Picture strip**: flip between backgrounds live. Picking one turns the video background off.
 - **Fill the screen** (default): covers the screen and crops the edges.
 - **Show it all**: the whole picture, with a blurred copy behind it filling the gaps.
-- **Drag anywhere** to slide the picture and pick which part shows.
-- **Centre** resets it. **Cancel** (or Escape) puts back the background and framing from when it opened. **Done** keeps it.
+- **Drag anywhere** to slide the picture and pick which part shows (Background tab only).
+- **Centre** resets it.
 
 Each picture background remembers its own framing. The video background (lofi bar ▣) has one of its own; when it's on, the controls change the video. Saved in `settings.framing`, keyed by background id or `'video'`. Logic in `src/backgrounds/framing.js` + `framing.css`, editor in `src/components/SceneEditor/`, picture cards in `src/components/BackgroundPicker/`, words in `src/content/background-framing.js`.
 

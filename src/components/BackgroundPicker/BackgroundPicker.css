@@ -1,15 +1,7 @@
+/* One row, scroll sideways if there are lots. */
 .background-picker {
   display: grid;
   gap: var(--space-s);
-}
-
-/* In the Look window: as many cards a row as fit. */
-.background-picker-grid {
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-}
-
-/* In the scene editor: one row, scroll sideways if there are lots. */
-.background-picker-strip {
   grid-auto-flow: column;
   grid-auto-columns: 104px;
   overflow-x: auto;
@@ -58,7 +50,7 @@
   text-overflow: ellipsis;
 }
 
-/* The strip is small, so the names are smaller too. */
-.background-picker-strip .background-card-name {
+/* The cards are small, so the names are smaller too. */
+.background-picker .background-card-name {
   font-size: 0.72rem;
 }

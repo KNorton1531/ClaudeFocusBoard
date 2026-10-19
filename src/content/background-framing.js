@@ -1,5 +1,5 @@
 // background-framing.js: the words used when fitting a background to the screen,
-// in the Look window and the scene editor.
+// in the scene editor.
 
 // The two ways a background can fit the screen (see backgrounds/framing.js).
 export const fitOptions = [
@@ -8,11 +8,7 @@ export const fitOptions = [
 ]
 
 export const framingText = {
-  title: 'Fit to screen',
   videoName: 'the video background',
-  adjust: 'Adjust scene',
-  tryOnScreen: 'Try on screen',
-  hint: 'Hides the board so you can drag the background into place. Handy on a tall screen.',
   editing: 'Moving',
   dragHint: 'Drag anywhere to slide it.',
   centre: 'Centre',

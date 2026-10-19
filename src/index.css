@@ -1,7 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Quicksand:wght@500;700&display=swap");
+/* Every font the font picker uses (see themes/fonts.css). Add a new font here too. */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Quicksand:wght@500;700&family=Lora:wght@400;600&family=Fraunces:wght@500;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=Courier+Prime:wght@400;700&family=DM+Sans:wght@400;600;700&display=swap");
 
-/* Sizes and fonts, then one file per theme. Add a new theme here too. */
+/* Sizes and fonts, then the font pairs, then one file per theme. Add a new theme here too. */
 @import "./themes/base.css";
+@import "./themes/fonts.css";
 @import "./themes/warm-cafe.css";
 @import "./themes/midnight.css";
 @import "./themes/forest.css";

@@ -15,7 +15,7 @@ Trimmed list, decided 2026-09-28.
 - Streams live in `src/content/lofi-streams.js` (name, channel, YouTube video id). The first one is the default.
 - Controls: stream name and thumbnail (click for the list), previous, play/pause, next, volume, list, video background.
 - Uses YouTube's IFrame Player API. Nothing autoplays. Play and pause fade the sound in and out.
-- **Video background**: the stream's video is always on the page but see-through. The button fades it in behind the Apps, so the stream never reloads. Whenever the video isn't playing (paused, loading), the stream's cover picture sits on top, hiding YouTube's own play button and spinner.
+- **Video background**: the stream's video is always on the page but see-through. With the button on, it fades in behind the Apps only while music is playing (or tuning in); pausing fades it out so the picture background shows again. The stream never reloads. The scene editor keeps it shown even when paused, so it can be framed. Whenever the video isn't playing (loading, tuning in), the stream's cover picture sits on top, hiding YouTube's own play button and spinner.
 - Saved in `settings`: `lofiStreamId`, `lofiVolume`, `lofiVideoBackground`.
 - If a stream ends, the bar says "Can't play this stream". Swap in the new video id.
 
