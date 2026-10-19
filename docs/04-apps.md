@@ -37,6 +37,7 @@ Trimmed list, decided 2026-09-28.
 |---|---|---|---|
 | Clock | Time, date and extra city clocks in one app. Settings choose what's shown. | Easy | [v1] |
 | Weather | Current weather + short forecast (Open-Meteo) | Medium | done |
+| Flight | An airliner flying near you, shown like a boarding pass | Medium | done |
 
 ### Weather (decided 2026-10-12)
 - Lives in `src/apps/Weather/`. Words and icons are in `src/content/weather.js`.
@@ -49,6 +50,27 @@ Trimmed list, decided 2026-09-28.
 - Refreshes every 15 minutes.
 - `compact: true`: no title bar, drag from anywhere, frame buttons show in the top right on hover. The + sits top left so they never cover it.
 - Fills the card as you resize it. The text size comes from the card's size (CSS container units), and the days spread out to use the space. `contentSize()` in `Weather.jsx` says roughly how big the content is in em; raise those numbers if anything gets cut off.
+
+### Flight (decided 2026-10-19)
+- Lives in `src/apps/Flight/`. Words are in `src/content/flight.js`.
+- Shows one airliner near you as a boarding pass: the airline's logo on a small light tile, flight number and airline, from and to (the plane slides along the line as it flies), altitude, speed, how far away it is, which way to look to spot it, climbing / cruising / descending, and the plane type. › moves on to the next flight, nearest first.
+- Live planes go through our own small free Deno Deploy app (`worker/flight-feed.js`), because no free feed lets websites read it straight from the browser. It tries adsb.fi first (best data, no daily limit), then adsb.lol, then OpenSky (only if its login is set), and always answers in adsb.fi's layout.
+- Why Deno and not Cloudflare (tried 2026-10-19): from a Cloudflare Worker, adsb.fi answers 403, adsb.lol runs out (429, because every Worker shares Cloudflare's addresses) and OpenSky never answers (522).
+- Routes and plane types: adsbdb.com (free, no key, works from the browser). Its airline names are sometimes wrong (it calls Air Canada Rouge's ROU a Chilean airline).
+- Logos: github.com/Jxck-S/airline-logos (FlightAware's logos, then RadarBox's for the ones it's missing, by ICAO code like `BAW`), loaded from GitHub, not copied in. They belong to the airlines. The pass is tinted with the logo's main colour (`airlineLook.js`), or the theme accent if it has none. No logo means no tile.
+- "Commercial only": an airline-style callsign (3 letters then a number), airliner-sized if the feed knows the size, in the air and faster than 60 knots, and a route adsbdb knows. Private jet operators that slip through go in `notAirlines` in `src/content/flight.js`.
+- Refreshes every 30 seconds. Only the 8 nearest planes get a route lookup, and each callsign is only looked up once.
+- Nothing is saved. Settings: miles or kilometres, look within 15 / 30 / 60 miles.
+- `compact: true`, and its text grows with the card like Weather.
+
+#### Setting up the feed (once)
+1. Make a free account at console.deno.com.
+2. On the Applications page, press New Playground. Replace all its code with `worker/flight-feed.js` and press Deploy.
+3. Open its address with `?check=1` on the end (like `https://flight-feed.your-name.deno.net/?check=1`). It lists which feeds work from there.
+4. Copy its address (without `?check=1`) into `FEED_URL` at the top of `src/apps/Flight/flightApi.js`.
+- Only needed if adsb.fi and adsb.lol both stop working: make a free account at opensky-network.org, create an API client on your Account page, and add its id and secret to the app's environment variables as `OPENSKY_CLIENT_ID` and `OPENSKY_CLIENT_SECRET`.
+- It only answers the live site and localhost (`ALLOWED_SITES`). If the site's address changes, add it there and deploy again.
+- If the Flight App says it can't reach the feed, run `?check=1` to see which feeds are failing.
 
 ## Board-wide
 - Every grid App resizes from any side or corner (`RESIZE_HANDLES` in `src/components/Board/grid.js`). Only the bottom-right corner shows its arrow.

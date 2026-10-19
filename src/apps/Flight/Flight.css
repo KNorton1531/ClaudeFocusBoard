@@ -1,0 +1,257 @@
+/* The flight fills the whole card and grows with it, like the Weather App.
+   The text size is worked out from the card's size, and every other size
+   in here is in "em", so it all grows together.
+   The content is roughly 22em wide and 15 lines tall. If things get cut off,
+   make those numbers a bit bigger. */
+.flight {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.6em;
+  overflow: hidden;
+  /* 100cqw is the card's width, 100cqh its height. */
+  font-size: min(calc(100cqw / 22), calc(100cqh / 15));
+  /* The airline's colour. BoardingPass.jsx swaps it for one taken from the logo. */
+  --flight-colour: var(--color-accent);
+}
+
+/* Messages: waiting, errors, nothing nearby */
+.flight-empty {
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.flight-empty-icon {
+  color: var(--color-accent);
+  font-size: 2em;
+}
+
+.flight-message {
+  max-width: 16em;
+  margin: 0;
+  color: var(--color-text-soft);
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Small grey words above each value: FROM, TO, ALTITUDE... */
+.flight-label {
+  color: var(--color-text-soft);
+  font-size: 0.6em;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Top row: flight number and airline.
+   Kept to the left, so the frame's hover buttons (top right) don't cover it. */
+.flight-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  min-width: 0;
+  padding-right: 4em;
+}
+
+/* The airline's logo on a small light tile, like an app icon.
+   Light, so dark logos still show on the dark card. */
+.flight-logo {
+  flex-shrink: 0;
+  width: 2.2em;
+  height: 2.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25em;
+  box-sizing: border-box;
+  border-radius: var(--radius-s);
+  background: var(--color-text);
+  box-shadow: var(--shadow);
+}
+
+.flight-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.flight-number {
+  flex-shrink: 0;
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
+  background: var(--flight-colour);
+  color: var(--color-accent-text);
+  font-family: var(--font-heading);
+  font-size: 0.8em;
+  font-weight: 700;
+}
+
+.flight-airline {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-text-soft);
+  font-size: 0.85em;
+}
+
+/* Middle: LHR ----✈---- JFK */
+.flight-route {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+}
+
+.flight-airport {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 6em;
+}
+
+.flight-airport-to {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.flight-code {
+  font-family: var(--font-heading);
+  font-size: 2.4em;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.flight-city {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: var(--color-text-soft);
+  font-size: 0.75em;
+}
+
+/* The line between the airports. The flown part is filled in. */
+.flight-path {
+  position: relative;
+  flex: 1;
+  height: 1.6em;
+}
+
+.flight-path-line,
+.flight-path-flown {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 0;
+}
+
+.flight-path-line {
+  right: 0;
+  border-top: 2px dashed var(--color-line);
+}
+
+.flight-path-flown {
+  border-top: 2px solid var(--flight-colour);
+}
+
+.flight-path-plane {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--flight-colour);
+  font-size: 1.4em;
+  line-height: 1;
+  text-shadow: var(--shadow-text);
+  /* Glides to its new spot after each refresh, instead of jumping. */
+  transition: left 1.5s ease;
+}
+
+/* The dashed tear line across the pass. */
+.flight-tear {
+  border-top: 2px dashed var(--color-line);
+}
+
+/* Altitude, speed and distance, side by side. */
+.flight-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6em;
+}
+
+.flight-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+
+.flight-stat-value {
+  font-family: var(--font-heading);
+  font-size: 1.15em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Bottom row: which way to look, and the next flight button. */
+.flight-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+}
+
+.flight-look {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+  color: var(--flight-colour);
+  font-size: 0.85em;
+}
+
+.flight-compass {
+  width: 1.6em;
+  height: 1.6em;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  font-weight: 700;
+  transition: transform 1.5s ease;
+}
+
+.flight-next {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.2em 0.4em 0.2em 0.7em;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-soft);
+  font-family: var(--font-body);
+  font-size: 0.75em;
+}
+
+.flight-next:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--color-text);
+}
+
+.flight-next-arrow {
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+/* Plane type and registration, e.g. "BOEING 777-300ER · G-STBA" */
+.flight-model {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-text-soft);
+  font-size: 0.65em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
