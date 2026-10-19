@@ -44,6 +44,11 @@
   --window-height: 540px;
   --window-backdrop: rgba(0, 0, 0, 0.45);
 
+  /* Scrollbars: thin, no track, and a soft handle tinted from the theme's text colour. */
+  --scrollbar-size: 8px;
+  --scrollbar-thumb: color-mix(in srgb, var(--color-text) 22%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--color-text) 40%, transparent);
+
   /* Gap between the board and the edge of the screen. */
   --board-edge: 24px;
 
