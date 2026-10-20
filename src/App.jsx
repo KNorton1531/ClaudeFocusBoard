@@ -10,7 +10,7 @@ import AppSettingsMenu from './components/AppSettingsMenu/AppSettingsMenu.jsx'
 import LofiPlayer from './components/LofiPlayer/LofiPlayer.jsx'
 import SceneEditor from './components/SceneEditor/SceneEditor.jsx'
 import { findApp, withDefaultSettings } from './apps/index.js'
-import { findFreeSpot } from './components/Board/grid.js'
+import { findFreeSpot, LANDSCAPE } from './components/Board/grid.js'
 import SceneBackground from './backgrounds/layers/SceneBackground.jsx'
 import { findBackground } from './backgrounds/index.js'
 import { findFraming } from './backgrounds/framing.js'
@@ -182,7 +182,9 @@ function App() {
       return true
     })
 
-    const spot = findFreeSpot(gridApps, appInfo.w, appInfo.h)
+    // This is its spot on a wide screen. Its spot on a tall screen is found
+    // by the Board the first time it's shown there.
+    const spot = findFreeSpot(gridApps, appInfo.w, appInfo.h, LANDSCAPE)
 
     const newApp = {
       id: type + '-' + Date.now(),
@@ -257,11 +259,18 @@ function App() {
   }
 
   // Called by the grid after a drag or resize. Copy the new positions onto our Apps.
-  function handleLayoutChange(layout) {
+  // A tall screen has its own spots, kept under "portrait" (see Board/grid.js).
+  function handleLayoutChange(layout, shape) {
     const moved = apps.map(function (app) {
       for (const item of layout) {
         if (item.i === app.id) {
-          return { ...app, x: item.x, y: item.y, w: item.w, h: item.h }
+          const spot = { x: item.x, y: item.y, w: item.w, h: item.h }
+
+          if (shape.name === 'portrait') {
+            return { ...app, portrait: spot }
+          } else {
+            return { ...app, ...spot }
+          }
         }
       }
 

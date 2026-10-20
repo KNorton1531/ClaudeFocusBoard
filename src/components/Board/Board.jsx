@@ -11,7 +11,17 @@ import AppFrame from '../AppFrame/AppFrame.jsx'
 import FloatingApp from '../FloatingApp/FloatingApp.jsx'
 import { findApp } from '../../apps/index.js'
 import { useElementSize } from './useElementSize.js'
-import { COLUMNS, ROWS, GAP, RESIZE_HANDLES, DRAG_CANCEL, keepInside, findSizeLimits, keepInLimits } from './grid.js'
+import {
+  GAP,
+  RESIZE_HANDLES,
+  DRAG_CANCEL,
+  findGridShape,
+  findSpot,
+  findFreeSpot,
+  keepInside,
+  findSizeLimits,
+  keepInLimits,
+} from './grid.js'
 import './Board.css'
 
 function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, onAppSettingsChange }) {
@@ -39,22 +49,47 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
     return findApp(app.type).floating
   })
 
+  // 24 x 12 squares on a wide screen, 12 x 24 on a tall one (see grid.js).
+  const shape = findGridShape(width, height)
+
   // One row's height, so that all the rows plus the gaps fill the board exactly.
   let rowHeight = 30
   if (isReady) {
-    rowHeight = (height - GAP * (ROWS - 1)) / ROWS
+    rowHeight = (height - GAP * (shape.rows - 1)) / shape.rows
   }
 
   if (rowHeight < 12) {
     rowHeight = 12
   }
 
+  // Spots already used in this grid shape. Hidden Apps keep their place, so they count.
+  const takenSpots = []
+  for (const app of apps) {
+    const appInfo = findApp(app.type)
+
+    if (appInfo && !appInfo.floating) {
+      const spot = findSpot(app, shape)
+
+      if (spot !== null) {
+        takenSpots.push(spot)
+      }
+    }
+  }
+
   // The grid needs x, y, w, h and an id called "i" for each App.
-  // The size is kept inside the App's limits first, then inside the board.
+  // An App with no spot in this grid shape yet gets the first free space at
+  // its normal size. The size is kept inside the App's limits, then inside the board.
   const layout = gridApps.map(function (app) {
     const appInfo = findApp(app.type)
-    const limits = findSizeLimits(appInfo, app.settings)
-    const spot = keepInside(keepInLimits(app, limits))
+    const limits = findSizeLimits(appInfo, app.settings, shape)
+
+    let savedSpot = findSpot(app, shape)
+    if (savedSpot === null) {
+      savedSpot = findFreeSpot(takenSpots, appInfo.w, appInfo.h, shape)
+      takenSpots.push(savedSpot)
+    }
+
+    const spot = keepInside(keepInLimits(savedSpot, limits), shape)
 
     return {
       i: app.id,
@@ -96,8 +131,11 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
 
   let grid = null
   if (isReady) {
+    // key: switching between wide and tall starts a fresh grid, so the old
+    // shape's spots are never saved as the new shape's.
     grid = (
       <ReactGridLayout
+        key={shape.name}
         layout={layout}
         width={width}
         autoSize={false}
@@ -105,8 +143,8 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
         // element's height, and a collapsed one stops Apps moving up and down.
         style={{ height: '100%' }}
         gridConfig={{
-          cols: COLUMNS,
-          maxRows: ROWS,
+          cols: shape.columns,
+          maxRows: shape.rows,
           rowHeight: rowHeight,
           margin: [GAP, GAP],
           containerPadding: [0, 0],
@@ -116,7 +154,9 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
         dragConfig={{ bounded: true, handle: '.app-drag-handle', cancel: DRAG_CANCEL }}
         resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }}
         compactor={noCompactor}
-        onLayoutChange={onLayoutChange}
+        onLayoutChange={function (newLayout) {
+          onLayoutChange(newLayout, shape)
+        }}
       >
         {appCards}
       </ReactGridLayout>

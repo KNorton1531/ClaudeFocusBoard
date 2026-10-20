@@ -2,12 +2,14 @@
    The text size is worked out from the card's size, and every other size
    in here is in "em", so it all grows together.
    The content is roughly 22em wide and 15 lines tall. If things get cut off,
-   make those numbers a bit bigger. */
+   make those numbers a bit bigger.
+   If the card is a different shape from the pass, the pass stays together in
+   the middle, rather than its rows spreading out to fill the space. */
 .flight {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   gap: 0.6em;
   overflow: hidden;
   /* 100cqw is the card's width, 100cqh its height. */
