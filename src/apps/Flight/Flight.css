@@ -257,3 +257,119 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+/* Bottom line: plane type on the left, the picked place on the right. */
+.flight-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  min-width: 0;
+}
+
+/* The picked place, e.g. "📍 Leeds". Press it to change the place.
+   Only shows when your own location couldn't be found. */
+.flight-place {
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-soft);
+  font-family: var(--font-body);
+  font-size: 0.65em;
+  cursor: pointer;
+}
+
+.flight-place:hover {
+  color: var(--color-text);
+}
+
+/* A rounded button: Pick a place, Change place, Search, Cancel. */
+.flight-pill {
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.flight-pill:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Place search, for when your location can't be found. */
+.flight-picker {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  overflow-y: auto;
+}
+
+/* Kept to the left, so the frame's hover buttons (top right) don't cover it. */
+.flight-picker-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding-right: 4em;
+}
+
+.flight-picker-title {
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+}
+
+.flight-search {
+  display: flex;
+  gap: var(--space-s);
+}
+
+.flight-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-s);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.flight-search-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.flight-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.flight-result {
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: var(--radius-s);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.flight-result:hover {
+  background: rgba(255, 255, 255, 0.14);
+}

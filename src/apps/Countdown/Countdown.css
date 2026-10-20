@@ -1,0 +1,357 @@
+/* The countdowns fill the card. Text grows a little with the card's width
+   (100cqw is the card's width), and every size in here is in "em",
+   so it all grows together. */
+.countdown {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  overflow: hidden;
+  font-size: clamp(0.8rem, calc(100cqw / 20), 1.2rem);
+}
+
+.countdown-empty {
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-m);
+  font-size: 1rem;
+}
+
+.countdown-message {
+  max-width: 16em;
+  margin: 0 auto;
+  color: var(--color-text-soft);
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Top row: ☰ on the left, title in the middle.
+   The empty third column keeps the title centred. */
+.countdown-top {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, auto) 1fr;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.countdown-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.countdown-round {
+  justify-self: start;
+  width: 1.6em;
+  height: 1.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text-soft);
+  font-size: 1em;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.countdown-round:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--color-text);
+}
+
+/* Today, or in its grace days: the time left goes the accent colour. */
+.countdown-reached .countdown-row-time,
+.countdown-reached .countdown-card-words {
+  color: var(--color-accent);
+}
+
+/* All at once: one row each, scrolling if they don't fit. */
+.countdown-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.countdown-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.4em 0.6em;
+  border-radius: var(--radius-s);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.countdown-row-icon {
+  flex-shrink: 0;
+  font-size: 1.4em;
+}
+
+.countdown-row-words {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.countdown-row-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
+.countdown-row-date {
+  color: var(--color-text-soft);
+  font-size: 0.75em;
+}
+
+.countdown-row-time {
+  flex-shrink: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* One at a time: one countdown, big. Its text size comes from the card's
+   height and width, so it always fits. */
+.countdown-card {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: min(calc(100cqw / 12), calc(100cqh / 11));
+}
+
+.countdown-card-middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1em;
+  text-align: center;
+}
+
+.countdown-card-icon {
+  font-size: 1.8em;
+}
+
+.countdown-card-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.countdown-card-number {
+  font-family: var(--font-heading);
+  font-size: 2.6em;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-card-words {
+  font-family: var(--font-heading);
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.countdown-card-label {
+  color: var(--color-accent);
+  font-size: 0.85em;
+}
+
+.countdown-card-date {
+  color: var(--color-text-soft);
+  font-size: 0.7em;
+}
+
+/* Bottom row of dots */
+.countdown-dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  padding-bottom: 0.2em;
+}
+
+.countdown-dot {
+  width: 0.4em;
+  height: 0.4em;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-text-soft);
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.countdown-dot-shown {
+  background: var(--color-accent);
+  opacity: 1;
+}
+
+/* Small rounded buttons: Done, Add, Choose countdowns */
+.countdown-pill {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.countdown-pill:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Choose panel, filling the App */
+.countdown-panel {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  font-size: 0.9rem;
+}
+
+.countdown-panel-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.countdown-panel-title {
+  color: var(--color-text-soft);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.countdown-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.countdown-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.countdown-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.countdown-input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-s);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  /* Makes the date picker's calendar icon light on the dark box. */
+  color-scheme: dark;
+}
+
+.countdown-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.countdown-every-year {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.countdown-problem {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+}
+
+.countdown-pick-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.countdown-pick-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.countdown-pick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding: 6px 8px;
+  border-radius: var(--radius-s);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+
+.countdown-pick:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.countdown-pick input {
+  accent-color: var(--color-accent);
+}
+
+.countdown-pick-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.countdown-pick-when {
+  flex-shrink: 0;
+  color: var(--color-text-soft);
+  font-size: 0.75rem;
+}
+
+.countdown-remove {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+
+.countdown-remove:hover {
+  color: var(--color-text);
+}

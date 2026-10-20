@@ -40,7 +40,10 @@ function compassName(degrees) {
   return compassNames[slice]
 }
 
-function BoardingPass({ plane, route, units, position, total, onNext }) {
+// placeName and onChangePlace are only given when it's watching a place you
+// picked (not your own location). Then the place shows bottom right, and
+// pressing it opens the search to change it.
+function BoardingPass({ plane, route, units, position, total, onNext, placeName, onChangePlace }) {
   const progress = tripProgress(plane, route)
   const code = airlineCode(plane.callsign)
 
@@ -88,6 +91,15 @@ function BoardingPass({ plane, route, units, position, total, onNext }) {
   }
 
   const details = useAircraftDetails(plane)
+
+  let placeButton = null
+  if (onChangePlace) {
+    placeButton = (
+      <button className="flight-place" title={flightText.changePlace} onClick={onChangePlace}>
+        📍 {placeName}
+      </button>
+    )
+  }
 
   return (
     <div className="flight" style={passStyle}>
@@ -152,7 +164,10 @@ function BoardingPass({ plane, route, units, position, total, onNext }) {
         {nextButton}
       </div>
 
-      <div className="flight-model">{details}</div>
+      <div className="flight-footer">
+        <div className="flight-model">{details}</div>
+        {placeButton}
+      </div>
     </div>
   )
 }

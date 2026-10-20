@@ -198,7 +198,7 @@ function App() {
     updateApps([...apps, newApp])
   }
 
-  // Hiding keeps the App and its place. Removing throws it away.
+  // Hiding keeps the App, its place and its settings, so it comes back the same.
   function handleToggleApp(id) {
     const changed = apps.map(function (app) {
       if (app.id === id) {
@@ -225,17 +225,6 @@ function App() {
     })
 
     updateApps(changed)
-  }
-
-  function handleRemoveApp(id) {
-    const remaining = apps.filter(function (app) {
-      return app.id !== id
-    })
-
-    // Weather and Livestream save under their own keys, so clear those too.
-    removeData('weather-' + id)
-    removeData('livestream-' + id)
-    updateApps(remaining)
   }
 
   function handleAppSettingsChange(id, newSettings) {
@@ -318,7 +307,7 @@ function App() {
       />
     )
   } else if (openMenu === 'app-settings') {
-    // The App might have been removed while its settings were open.
+    // Only show it if the App is still on the board.
     for (const app of apps) {
       if (app.id === settingsAppId) {
         menu = (
@@ -348,7 +337,6 @@ function App() {
         onMoveApp={handleMoveApp}
         onOpenAppSettings={handleOpenAppSettings}
         onHideApp={handleHideApp}
-        onRemoveApp={handleRemoveApp}
         onAppSettingsChange={handleAppSettingsChange}
       />
     </>

@@ -9,6 +9,8 @@ import Livestream from './Livestream/Livestream.jsx'
 import { config as livestreamConfig } from './Livestream/app.config.js'
 import Flight from './Flight/Flight.jsx'
 import { config as flightConfig } from './Flight/app.config.js'
+import Countdown from './Countdown/Countdown.jsx'
+import { config as countdownConfig } from './Countdown/app.config.js'
 
 // Each entry is that App's config plus the component that draws it.
 // Sizes (w and h) are in grid squares. See docs/02-tech-stack.md.
@@ -17,6 +19,7 @@ export const appList = [
   { ...weatherConfig, component: Weather },
   { ...livestreamConfig, component: Livestream },
   { ...flightConfig, component: Flight },
+  { ...countdownConfig, component: Countdown },
 ]
 
 export function findApp(type) {

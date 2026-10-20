@@ -5,14 +5,25 @@ import { weatherCodes, unknownWeather } from '../../content/weather.js'
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast'
 const SEARCH_URL = 'https://geocoding-api.open-meteo.com/v1/search'
 
-// Open-Meteo sends times like "2026-10-19T07:32", already in the place's own
-// time zone. This keeps just the "07:32" part.
-function timeOfDay(dateAndTime) {
+// Open-Meteo sends times like "2026-10-19T07:32". It uses today's clock
+// offset (e.g. BST, +1 hour) for every day, so days after the clocks change
+// come out an hour wrong. To fix it, we turn the time back into a real moment
+// (by taking the offset away), then show it in the place's own time zone,
+// which knows when the clocks change. Gives back just the "07:32" part.
+function timeOfDay(dateAndTime, offsetSeconds, timeZone) {
   if (!dateAndTime) {
     return ''
   }
 
-  return dateAndTime.slice(11, 16)
+  // Adding "Z" reads the time as if it were UTC.
+  const asIfUtc = new Date(dateAndTime + 'Z').getTime()
+  const realMoment = new Date(asIfUtc - offsetSeconds * 1000)
+
+  return realMoment.toLocaleTimeString('en-GB', {
+    timeZone: timeZone,
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 
 // Turns a weather code into its name and icon.
@@ -62,8 +73,8 @@ export async function fetchForecast(latitude, longitude, units) {
       low: Math.round(raw.daily.temperature_2m_min[index]),
       // Chance of rain, from 0 to 100.
       rainChance: raw.daily.precipitation_probability_max[index],
-      sunrise: timeOfDay(raw.daily.sunrise[index]),
-      sunset: timeOfDay(raw.daily.sunset[index]),
+      sunrise: timeOfDay(raw.daily.sunrise[index], raw.utc_offset_seconds, raw.timezone),
+      sunset: timeOfDay(raw.daily.sunset[index], raw.utc_offset_seconds, raw.timezone),
     }
   })
 

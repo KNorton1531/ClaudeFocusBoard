@@ -38,6 +38,7 @@ Trimmed list, decided 2026-09-28.
 | Clock | Time, date and extra city clocks in one app. Settings choose what's shown. | Easy | [v1] |
 | Weather | Current weather + short forecast (Open-Meteo) | Medium | done |
 | Flight | An airliner flying near you, shown like a boarding pass | Medium | done |
+| Countdown | Days to go until holidays, events and your own dates | Easy/Med | done |
 
 ### Weather (decided 2026-10-12)
 - Lives in `src/apps/Weather/`. Words and icons are in `src/content/weather.js`.
@@ -64,6 +65,7 @@ Trimmed list, decided 2026-09-28.
 - Refreshes every 2 minutes, and not at all while the tab is hidden (changed 2026-10-19: Deno Deploy bills "Memory Time", how long the feed is kept awake, and 30 seconds used up the free allowance in a day). Only the 8 nearest planes get a route lookup, and each callsign is only looked up once.
 - The last planes are saved in the browser (`savedPlanes.js`) so a reload, coming back to the tab, or a second tab reuses them instead of asking the feed. Nothing else is saved. Settings: miles or kilometres, look within 15 / 30 / 60 miles.
 - `compact: true`, and its text grows with the card like Weather.
+- No location (added 2026-10-20): if the browser can't find you, it says so with a "Pick a place" button. That opens a search (`PlacePicker.jsx`, using Weather's `searchPlaces`), and the place you pick is saved under `flight-<appId>`. It's only used when your location can't be found. While it's in use, the place name shows bottom right of the pass (and "Change place" on the messages); press it to pick another.
 
 #### Setting up the feed (once)
 1. Make a free account at console.deno.com.
@@ -74,15 +76,25 @@ Trimmed list, decided 2026-09-28.
 - It only answers the live site and localhost (`ALLOWED_SITES`). If the site's address changes, add it there and deploy again.
 - If the Flight App says it can't reach the feed, run `?check=1` to see which feeds are failing.
 
+### Countdown (decided 2026-10-19)
+- Lives in `src/apps/Countdown/`. Words are in `src/content/countdown.js`.
+- Built-in countdowns are in `src/content/countdown-list.js`, one line each, grouped by category (Holidays, Seasons, Personal). How to write a date is explained at the top of that file: `"12-25"` every year, `"2027-03-14"` one day only, or a `dates` list for days that move each year (none in the list right now). Moving days need more years adding before the last one passes. An optional `time: "03:00"` counts down to that time instead of midnight.
+- Grace days: after its day, a countdown stays up for `graceDays` (3, top of the list file, or `graceDays` on one entry) saying "Reached 2 days ago". Then a yearly one counts down to next year, and a one-day one disappears. The day maths is in `countdownInfo.js`.
+- Nothing is shown at first. ☰ opens the Choose panel: tick which countdowns to show, grouped by category. "My countdowns" is at the top, with a form to add your own (name, date, Every year). A new one of your own is ticked straight away. ✕ removes it.
+- Saved under `countdown-<appId>` as `{ chosen, mine }`. `chosen` is a list of ids. Each of `mine` is `{ id, name, category: 'mine', date }`, with the date written the same way as the built-in ones. Removing the App clears that key.
+- Settings: Show All at once (a list, soonest first) or One at a time (big, with dots, moves on every 5 sec to 5 min), and Show hours and minutes (counts to midnight at the start of the day).
+- `compact: true`. One at a time grows its text with the card, like Weather.
+
 ## Board-wide
 - Every grid App resizes from any side or corner (`RESIZE_HANDLES` in `src/components/Board/grid.js`). Only the bottom-right corner shows its arrow.
 - Any App can drop its title bar by adding `compact: true` to its `app.config.js`.
 - Resize limits: `minW`, `minH`, `maxW`, `maxH` in `app.config.js` (grid squares), or a `sizeLimits(settings)` function when they depend on settings. See `findSizeLimits` in `src/components/Board/grid.js`.
 - The Apps button opens a row of App buttons just above the music bar (`src/components/AppsMenu/`), with no window or dimmed backdrop. A lit button is on the board. Press it to hide the App (its place and settings are kept), or to add it if it isn't on the board yet. Each button shows the `icon` from that App's `app.config.js`, so a new App needs one.
+- The ✕ on an App hides it, the same as pressing its button here. Nothing is ever removed, so its settings and saved data (places, streams, countdowns) are still there when it comes back. Reset board in Settings is the only way to start fresh.
 
 ### Clock settings
 - Floats freely on the board (`floating: true` in `app.config.js`). It is the size of its text, has no resize handle, and drags from anywhere
-- Hover to blur it and show the settings, hide and remove buttons. Settings open in a pop-up panel
+- Hover to blur it and show the settings and hide (✕) buttons. Settings open in a pop-up panel
 - Minimal: on / off. Shows only the time, with no card even on hover
 - Size: small, medium, large, huge
 - Show time: on / off, 12h or 24h, seconds on / off

@@ -14,7 +14,7 @@ import { useElementSize } from './useElementSize.js'
 import { COLUMNS, ROWS, GAP, RESIZE_HANDLES, DRAG_CANCEL, keepInside, findSizeLimits, keepInLimits } from './grid.js'
 import './Board.css'
 
-function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, onRemoveApp, onAppSettingsChange }) {
+function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, onAppSettingsChange }) {
   const { width, height, elementRef, isReady } = useElementSize()
   const floatingLayer = useElementSize()
 
@@ -87,9 +87,6 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
           onHide={function () {
             onHideApp(app.id)
           }}
-          onRemove={function () {
-            onRemoveApp(app.id)
-          }}
         >
           <AppComponent appId={app.id} settings={app.settings} />
         </AppFrame>
@@ -145,9 +142,6 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
           }}
           onHide={function () {
             onHideApp(app.id)
-          }}
-          onRemove={function () {
-            onRemoveApp(app.id)
           }}
         >
           <AppComponent appId={app.id} settings={app.settings} />

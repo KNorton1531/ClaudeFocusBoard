@@ -1,6 +1,7 @@
 // AppFrame: the frosted card every grid App sits inside.
-// The title bar is the drag handle. The buttons open settings, hide the App,
-// or remove it. Pressing the gear flips the card over to show its settings.
+// The title bar is the drag handle. The buttons open settings or hide the App.
+// Hiding keeps its place and settings, and the Apps menu brings it back.
+// Pressing the gear flips the card over to show its settings.
 //
 // A "compact" App (compact: true in its app.config.js) has no title bar, so
 // its content can use the whole card. You drag it from anywhere, and the
@@ -9,7 +10,7 @@ import { useState } from 'react'
 import SettingsFields from '../SettingsFields/SettingsFields.jsx'
 import './AppFrame.css'
 
-function AppFrame({ title, compact, settingsFields, settings, onSettingsChange, onHide, onRemove, children }) {
+function AppFrame({ title, compact, settingsFields, settings, onSettingsChange, onHide, children }) {
   const [isEditing, setIsEditing] = useState(false)
 
   function handleToggleSettings() {
@@ -44,9 +45,6 @@ function AppFrame({ title, compact, settingsFields, settings, onSettingsChange, 
     <div className="app-frame-buttons">
       {settingsButton}
       <button className="app-frame-button" onClick={onHide} title="Hide this app">
-        –
-      </button>
-      <button className="app-frame-button" onClick={onRemove} title="Remove this app">
         ✕
       </button>
     </div>

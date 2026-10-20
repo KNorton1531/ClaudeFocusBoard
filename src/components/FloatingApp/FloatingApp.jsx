@@ -1,7 +1,7 @@
 // FloatingApp: an App that floats freely on the board instead of sitting in
 // the grid, like the clock. It is exactly the size of what it shows, so it
 // can't be resized. Drag it from anywhere. Hovering blurs it and shows the
-// settings, hide and remove buttons on top.
+// settings and hide buttons on top.
 //
 // Its place is saved as "left" and "top", from 0 to 1: how far across and down
 // the free space it sits. 0 is the left / top edge, 1 is the right / bottom edge.
@@ -10,7 +10,7 @@ import Draggable from 'react-draggable'
 import { useElementSize } from '../Board/useElementSize.js'
 import './FloatingApp.css'
 
-function FloatingApp({ app, boardWidth, boardHeight, onMove, onOpenSettings, onHide, onRemove, children }) {
+function FloatingApp({ app, boardWidth, boardHeight, onMove, onOpenSettings, onHide, children }) {
   const { width, height, elementRef } = useElementSize()
 
   // How far the App can move before it hits the edge of the board.
@@ -61,9 +61,6 @@ function FloatingApp({ app, boardWidth, boardHeight, onMove, onOpenSettings, onH
             ⚙
           </button>
           <button className="floating-app-button" onClick={onHide} title="Hide this app">
-            –
-          </button>
-          <button className="floating-app-button" onClick={onRemove} title="Remove this app">
             ✕
           </button>
         </div>
