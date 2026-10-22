@@ -99,7 +99,7 @@ export function keepInside(spot, shape) {
 }
 
 // True when two Apps would sit on top of each other.
-function overlaps(a, b) {
+export function overlaps(a, b) {
   if (a.x + a.w <= b.x) {
     return false
   }

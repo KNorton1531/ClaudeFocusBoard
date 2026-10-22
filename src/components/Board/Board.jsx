@@ -4,13 +4,15 @@
 // an App can never be dragged out of view.
 // Floating Apps (like the clock) sit in their own layer on top. That layer
 // covers the whole screen, so they can go right up to the edges.
-import ReactGridLayout, { noCompactor } from 'react-grid-layout'
+import { useMemo } from 'react'
+import ReactGridLayout from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import AppFrame from '../AppFrame/AppFrame.jsx'
 import FloatingApp from '../FloatingApp/FloatingApp.jsx'
 import { findApp } from '../../apps/index.js'
 import { useElementSize } from './useElementSize.js'
+import { createRearranger } from './rearrange.js'
 import {
   GAP,
   RESIZE_HANDLES,
@@ -51,6 +53,11 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
 
   // 24 x 12 squares on a wide screen, 12 x 24 on a tall one (see grid.js).
   const shape = findGridShape(width, height)
+
+  // Moves other Apps out of the way while one is dragged or resized (see rearrange.js).
+  const rearranger = useMemo(function () {
+    return createRearranger(shape)
+  }, [shape])
 
   // One row's height, so that all the rows plus the gaps fill the board exactly.
   let rowHeight = 30
@@ -153,7 +160,19 @@ function Board({ apps, onLayoutChange, onMoveApp, onOpenAppSettings, onHideApp, 
         // start a drag from a button or a box you type in.
         dragConfig={{ bounded: true, handle: '.app-drag-handle', cancel: DRAG_CANCEL }}
         resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }}
-        compactor={noCompactor}
+        compactor={rearranger}
+        onDragStart={function (currentLayout, item) {
+          rearranger.startMove(currentLayout, item.i)
+        }}
+        onDragStop={function () {
+          rearranger.endMove()
+        }}
+        onResizeStart={function (currentLayout, item) {
+          rearranger.startMove(currentLayout, item.i)
+        }}
+        onResizeStop={function () {
+          rearranger.endMove()
+        }}
         onLayoutChange={function (newLayout) {
           onLayoutChange(newLayout, shape)
         }}
